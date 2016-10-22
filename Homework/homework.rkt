@@ -49,6 +49,7 @@
 
 (define-struct (my-exception exn:fail:user) ())
 
+
 #|Temos que criar uma exceção para esse caso ou vcs acham melhor usar alguma já built-inw
 
 (define (recognize network tape)
@@ -58,17 +59,32 @@
    nil)))
 
 
-Estou tendo problemas no "for" da função abixo. Sugestões? 
+Estou tendo problemas no "for" da função abaixo. Sugestões? 
 |#
 
 
 (define (recognize-next node tape network)
   (if (and (null tape) (member node final-nodes network))
-      (raise 'stop #t)
-      (for ((transition (transitions network)))
+      null
+      (for ([transition (transitions network)])
         (if (eq? node (trans-node transition))
-            (for ((newtape (recognize-move (trans-label transition) tape))))
+            (for ([newtape (recognize-move (trans-label transition))] tape))
             (recognize-next (trans-newnode transition) newtape network)))))
+
+(define (recognize-move label tape)
+  (if (or (eq? label (car tape))
+          (member (car tape) (assoc label abbreviations)))
+      (list (cdr tape))
+      (if (eq? label '|#|)
+          (list tape)
+          null)))
+
+
+
+
+
+
+
 
 
 
