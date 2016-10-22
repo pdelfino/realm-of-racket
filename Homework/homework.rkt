@@ -47,19 +47,24 @@
     (MOD very)
     (ADV often always sometimes)))
 
-(define exn:stop "stop")
+(define-struct (my-exception exn:fail:user) ())
 
-(define (recognize network tape)
-  (with-handlers
-      ((exn:stop
-        (dolist (initialnode (initial-nodes network))
-                (recognize-next initialnode tape network)))
-        nil)))
-    
-    
-    
-    
-    
-    
-    
-    
+
+;(define (recognize network tape)
+;  (with-handlers ((exn:fail)
+;    (dolist (initialnode (initial-nodes network))
+;      (recognize-next initialnode tape network))
+;    nil)))
+
+
+(define (recognize-next node tape network)
+  (if (and (null tape) (member node final-nodes network))
+      (raise 'stop #t)
+      (for ((transition (transitions network)))
+        (if (eq? node (trans-node transition))
+            (for ((newtape (recognize-move (trans-label transition) tape))))
+            (recognize-next (trans-newnode transition) newtape network)))))
+
+
+
+
