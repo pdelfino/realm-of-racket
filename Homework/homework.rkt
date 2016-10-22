@@ -49,12 +49,17 @@
 
 (define-struct (my-exception exn:fail:user) ())
 
+#|Temos que criar uma exceção para esse caso ou vcs acham melhor usar alguma já built-inw
 
-;(define (recognize network tape)
-;  (with-handlers ((exn:fail)
-;    (dolist (initialnode (initial-nodes network))
-;      (recognize-next initialnode tape network))
-;    nil)))
+(define (recognize network tape)
+  (with-handlers ((exn:fail)
+    (dolist (initialnode (initial-nodes network))
+     (recognize-next initialnode tape network))
+   nil)))
+
+
+Estou tendo problemas no "for" da função abixo. Sugestões? 
+|#
 
 
 (define (recognize-next node tape network)
