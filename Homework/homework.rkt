@@ -1,4 +1,6 @@
 #lang racket
+
+; Alguém expandiu?
 (define english-1
   '((Initial (1))
     (Final (9))
@@ -47,29 +49,25 @@
     (MOD very)
     (ADV often always sometimes)))
 
-(define-struct (my-exception exn:fail:user) ())
+;(define-struct (my-exception exn:fail:user) ())
 
 
-#|Temos que criar uma exceção para esse caso ou vcs acham melhor usar alguma já built-inw
-
+; Ler de novo a documentacao -- esta dando erro
 (define (recognize network tape)
-  (with-handlers ((exn:fail)
-    (dolist (initialnode (initial-nodes network))
-     (recognize-next initialnode tape network))
-   nil)))
+  (with-handlers([symbol?
+    (for [initialnode (initial-nodes network)]
+     (recognize-next initialnode tape network))])))
+   
 
 
-Estou tendo problemas no "for" da função abaixo. Sugestões? 
-|#
-
-
+; Pode usar um filter para melhorar o código
 (define (recognize-next node tape network)
   (if (and (null tape) (member node final-nodes network))
-      null
-      (for ([transition (transitions network)])
+      (raise 'erro #t)
+      (for ([transition (transitions network)]
         (if (eq? node (trans-node transition))
-            (for ([newtape (recognize-move (trans-label transition))] tape))
-            (recognize-next (trans-newnode transition) newtape network)))))
+            (for ([newtape (recognize-move (trans-label transition)) tape])
+            (recognize-next (trans-newnode transition) newtape network)))))))
 
 (define (recognize-move label tape)
   (if (or (eq? label (car tape))
