@@ -54,20 +54,23 @@
 
 ; Ler de novo a documentacao -- esta dando erro
 (define (recognize network tape)
-  (with-handlers([symbol?
-    (for [initialnode (initial-nodes network)]
-     (recognize-next initialnode tape network))])))
+  (with-handlers([(eq? 'erro)
+                  null])
+  (for ((initialnode (initial-nodes network)))
+                                   (recognize-next initialnode tape network))))
    
 
 
 ; Pode usar um filter para melhorar o código
+;Não tenho certeza quanto ao else statement no último if clause
 (define (recognize-next node tape network)
   (if (and (null tape) (member node final-nodes network))
       (raise 'erro #t)
-      (for ([transition (transitions network)]
+      (for ((transition (transitions network)))
         (if (eq? node (trans-node transition))
-            (for ([newtape (recognize-move (trans-label transition)) tape])
-            (recognize-next (trans-newnode transition) newtape network)))))))
+            (for ((newtape (recognize-move (trans-label transition)tape)))              
+            (recognize-next (trans-newnode transition) newtape network))
+            (raise 'erro)))))
 
 (define (recognize-move label tape)
   (if (or (eq? label (car tape))
@@ -76,6 +79,13 @@
       (if (eq? label '|#|)
           (list tape)
           null)))
+
+
+
+
+(define (generate network)
+  (for ((initialnode (initial-nodes network)))
+    (generate-next initialnode null network)))
 
 
 
