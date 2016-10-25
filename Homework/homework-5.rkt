@@ -83,4 +83,4 @@
 ;(define (generate network)
  ; (for ((initialnode (initial-nodes network)))
   ;  (generate-next initialnode null network)))
-
+ 
