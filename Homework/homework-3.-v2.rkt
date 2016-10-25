@@ -1,6 +1,6 @@
 #lang racket
+(require racket/trace)
 
-; Alguém expandiu?
 (define english-1
   '((Initial (1))
     (Final (9))
@@ -21,23 +21,28 @@
     (From 9 to 4 by CNJ)
     (From 9 to 1 by CNJ)))
 
+(define (getf x y)
+  (if (eq? (car x) y)
+      (cadr x)
+      (getf (cdr x) y)))
+
 (define (initial-nodes network)
-  ( list-ref (assoc 'Initial network) 1))
+  (list-ref (assoc 'Initial network) 1))
 
 (define (final-nodes network)
   (list-ref  (assoc 'Final network) 1))
 
 (define (transitions network)
-  (filter (lambda (x) (eq? (car x) 'From) network)))
+  (filter (lambda (x) (eq? (car x) 'From)) network))
 
 (define (trans-node transition)
-  (cdr (assoc 'From transition)))
+  (getf transition 'From))
 
 (define(trans-newnode transition)
-  (cdr (assoc 'to transition)))
+  (getf transition 'to))
 
 (define (trans-label transition)
-  (cdr (assoc 'by transition)))
+  (getf transition 'by))
 
 (define abbreviations
   '((NP kim sandy lee)
@@ -48,49 +53,31 @@
     (ADJ happy stupid)
     (MOD very)
     (ADV often always sometimes)))
-
-
-
-
+;
 (define (recognize network tape)
-
-  (define (recognize-next node tape network)
-  (if (and (null tape) (member node final-nodes network))
-      (raise 'erro #t)
+  (with-handlers
+      ((number? (lambda (s) #t)))
+    (for ((initialnode (initial-nodes network)))
+      (recognize-next initialnode tape network))))
+(define (recognize-next node tape network)
+  (if (and (empty? tape) (member node (final-nodes network)))
+      (raise 1 #t)
       (for ((transition (transitions network)))
+        (display transition)
         (if (eq? node (trans-node transition))
             (for ((newtape (recognize-move (trans-label transition)tape)))              
-            (recognize-next (trans-newnode transition) newtape network))
-            (raise 'erro #t)))))
+              (recognize-next (trans-newnode transition) newtape network))
+            null))))
 
-  (define (recognize-move label tape)
+(define (recognize-move label tape)
   (if (or (eq? label (car tape))
           (member (car tape) (assoc label abbreviations)))
       (list (cdr tape))
-      (if (eq? label '|#|)
-          (list tape)
-          null)))
+      
+      (list tape)))
 
 
-  (with-handlers([(eq? 'erro)
-                  null])
-  (for ((initialnode (initial-nodes network)))
-                                   (recognize-next initialnode tape network))))
-
-
-
-
+(trace recognize-move)
 ;(define (generate network)
- ; (for ((initialnode (initial-nodes network)))
-  ;  (generate-next initialnode null network)))
-
-
-
-
-
-
-
-
-
-
-
+;  (for ((initialnode (initial-nodes network)))
+;    (generate-next initialnode null network)))
