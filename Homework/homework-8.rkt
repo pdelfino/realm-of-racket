@@ -10,6 +10,7 @@
     (Final (11))
     (From 1 to 2 by NP)
     (From 1 to 3 by DET)
+    (From 2 to 10 by PONT)
     (From 2 to 5 by BV)
     (From 2 to 7 by CNJ)
     (From 3 to 6 by ADJ)
@@ -99,7 +100,7 @@
           null)))
 
 
-(check-equal? (recognize english-1 '(kim is a very stupid man ? fim)) #t)
+(check-equal? (recognize english-1 '(kim  ? fim)) #t)
 
 (check-equal? (recognize english-1 '(esse exercício é foda para caralho)) '())
 
