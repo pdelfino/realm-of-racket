@@ -7,7 +7,7 @@
 
 (define english-1
   '((Initial (1))
-    (Final (11))
+    (Final (10))
     (From 1 to 2 by NP)
     (From 1 to 3 by DET)
     (From 2 to 10 by PONT)
@@ -33,9 +33,8 @@
     (From 8 to 6 by ADJ)
     (From 9 to 8 by MOD)
     (From 9 to 6 by ADJ)
-    (From 9 to 3 by DET)
-    (From 10 to 11 by fim)))
-    
+    (From 9 to 3 by DET)))
+        
 
 (define (getf x y)
   (if (eq? (car x) y)
@@ -100,7 +99,7 @@
           null)))
 
 
-(check-equal? (recognize english-1 '(kim  ? fim)) #t)
+(check-equal? (recognize english-1 '(kim  ? )) #t)
 
 (check-equal? (recognize english-1 '(esse exercício é foda para caralho)) '())
 
