@@ -59,19 +59,26 @@
 (define (recognize network tape)
   ;; returns t if sucessfully recognizes tape - nil otherwise
   (call/cc (lambda (return)
-             (define (recognize_next node tape network)
+             (define (recognize-next node tape network)
                (if (and (null? tape) (member node (final-nodes network)))
                    (return #t) ; success
                    (for ([transition (transitions network)])
                            ;; try each transition of the network
-                           (if (equal? node (trans_node transition)) ; if it starts at the right node
-                               (for ([newtape (recognize_move (transJabel transition) tape)])
+                           (if (equal? node (trans-node transition)) ; if it starts at the right node
+                               (for ([newtape (recognize-move (transJabel transition) tape)])
                                        ;; try each possible new value of tape
-                                 (recognize_next (trans_newnode transition) newtape network))))))
+                                 (recognize_next (trans-newnode transition) newtape network))))))
              (for ([initialnode (initial-nodes network)])
                (recognize_next initialnode tape network))
              nil))) ; failed to recognize
 
+(define (recognize-move label tape)
+  (if (or (eq? label (car tape))
+          (member (car tape) (assoc label abbreviations)))
+      (list (cdr tape))
+      (if (eq? label '|#|)
+          (list tape)
+          null)))
 
 ;(define (generate network)
  ; (for ((initialnode (initial-nodes network)))
