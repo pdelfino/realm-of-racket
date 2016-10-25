@@ -99,11 +99,6 @@
           null)))
 
 
-(check-equal? (recognize english-1 '(kim  ? )) #t)
-
-(check-equal? (recognize english-1 '(esse exercício é foda para caralho)) '())
-
-'(kim is a very stupid man)
 
 
 (define (generate network)
@@ -117,14 +112,20 @@
                  (generate-next (trans-newnode transition) newtape network)))))))
   
   (define (generate-move label tape)
-    (if (or (eq? '|#| label )
-            (eq? 'fim label))
+    (if (eq? '|#| label )           
         '()
         (cdr (assoc label abbreviations))))
   
   
   (for ((initialnode (initial-nodes network)))
     (generate-next initialnode null network)))
+
+(check-equal? (recognize english-1 '(kim  ? )) #t)
+
+(check-equal? (recognize english-1 '(esse exercício é foda para caralho)) '())
+
+'(kim is a very stupid man)
+
 
 
 
