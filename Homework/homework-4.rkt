@@ -56,6 +56,7 @@
 
 (getf '(From 1 to 3 by NP) 'From)
 
+
 (define (recognize network tape)
   ;; returns t if sucessfully recognizes tape - nil otherwise
   (call/cc (lambda (return)
