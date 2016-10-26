@@ -10,6 +10,7 @@
     (From 1 to 2 by NP)
     (From 1 to 3 by DET)
     (From 2 to 10 by PONT)
+    (From 2 to 10 by |#|)
     (From 2 to 5 by BV)
     (From 2 to 7 by CNJ)
     (From 3 to 6 by ADJ)
@@ -23,6 +24,7 @@
     (From 5 to 10 by PONT)
     (From 6 to 4 by N)
     (From 6 to 10 by PONT)
+    (From 6 to 10 by |#|)
     (From 6 to 8 by MOD)
     (From 7 to 1 by |#|)
     (From 7 to 2 by NP)
@@ -32,7 +34,8 @@
     (From 8 to 6 by ADJ)
     (From 9 to 8 by MOD)
     (From 9 to 6 by ADJ)
-    (From 9 to 3 by DET)))
+    (From 9 to 3 by DET)
+    (From 10 to 1 by |#|)))
 
 
 (define (getf x y)
@@ -69,25 +72,27 @@
     (ADV often always sometimes)
     (|#|)
     (fim)
-    (PONT  ! ? )))
+    (PONT  ! ?  )))
 
 (define (recognize network tape)
-  ;; returns t if sucessfully recognizes tape - nil otherwise
+  ;; retorna t se reconhecer o tape - retorna null se não reconhecer
+  ;; quando passamos um tape que não termina em sinal de pontuação, ele retorna '()
   (call/cc (lambda (return)
              (define (recognize-next node tape network)
                (if (null? tape)
                    (if (member node (final-nodes network))
                        (return #t)
-                       (return '())); success
+                       (return '()))
+                        ; successo
                    (for ([transition (transitions network)])
-                     ;; try each transition of the network
+                     ;; testa cada transição da rede
                      (when (equal? node (trans-node transition)) ; if it starts at the right node
                        (for ([newtape (recognize-move (trans-label transition) tape)])
-                         ;; try each possible new value of tape
+                         ;; testa cada valor possível
                          (recognize-next (trans-newnode transition) newtape network))))))
              (for ([initialnode (initial-nodes network)])
                (recognize-next initialnode tape network))
-             null))) ; failed to recognize
+             null))) ; falha em reconhecer
 
 (define (recognize-move label tape)
   (if (or (eq? label (car tape))
@@ -103,10 +108,8 @@
 
 
 (define (generate-next node tape network size)
-  (cond ((member node (final-nodes network))
+  (cond ((or (member node (final-nodes network)) (> (length tape) size))
          (displayln tape))
-        ((> (length tape) size)
-         (displayln  tape ))
         (else
          (for ([transition (transitions network)])
            (when (equal? node (trans-node transition))
@@ -120,8 +123,13 @@
 
 
 (check-equal? (recognize english-1 '(kim  ? )) #t)
-
+(check-equal? (recognize english-1 '(kim eu ? )) '())
+(check-equal? (recognize english-1 '(pedro  ? )) '())
+(check-equal? (recognize english-1 '(kim is happy  )) '())
 (check-equal? (recognize english-1 '(esse exercício é foda para caralho)) '())
 
-
-(generate english-1 5)
+(recognize english-1 '(kim was happy  ))
+(generate english-1 3)
+(generate english-1 2)
+(generate english-1 1)
+(generate english-1 0)
