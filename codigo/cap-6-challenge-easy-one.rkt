@@ -42,15 +42,9 @@
 (define pit-example
   (pit snake-example goo-example))
 
-;olha aí, como eu acesso os fields de um objeto, primeiro pegando um GOO e depois pegando a ABCISSA da localização desse GOO!
-
-#|USA O TESTES PARA MOSTRAR COMO CHAMA CARALHO!!!!|#
-
-
 ;to usando pit aqui dentro da sua estrutura, primeiro a cobra, e, no outro field, varios GOOS juntos
 
 ;CONSTRUINDO O JOGO MESMO
-;
 
 (require 2htdp/universe 2htdp/image)
 
