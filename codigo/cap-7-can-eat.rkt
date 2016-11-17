@@ -1,0 +1,70 @@
+#lang racket
+
+(require rackunit racket/trace)
+
+(struct posn (x y) #:transparent)
+
+(struct goo (loc expire) #:transparent)
+
+(struct snake (dir segs) #:transparent)
+
+(define SNAKE-EXAMPLE
+  (snake "up" (list (posn 1 1) (posn 1 2) (posn 1 3))))
+
+(define GOOS-EXAMPLE
+  (list (goo (posn 1 1) 3) (goo (posn 5 8) 15)))
+
+;pega via car/first o primeiro par da cobra, que nada mais é que um grupo de listas
+(define (snake-head snake)
+  (first (snake-segs snake)))
+
+;checa se dois pontos são iguais ou diferentes
+(define (posn=? p1 p2)
+  (and (= (posn-x p1) (posn-x p2))
+       (= (posn-y p1) (posn-y p2))))
+
+;checa se é a mesma posição entre o prmeiro parâmetro e a localização de um GOO
+(define (close? s g)
+  (posn=? s (goo-loc g)))
+
+;função checa se tem algum GOO perto da cabeça da cobra e retorna o GOO inteiro,
+; , com a localização e o tempo que ele irá se "expirar"
+
+(define (can-eat snake goos)
+  (cond [(empty? goos) #f] ;se a lista de goos for vazia, a cobra não consegue comer
+        [else (if (close? (snake-head snake) (first goos)) ;close checa se a cabeça da cobra está perto de um GOO
+                  (first goos)
+                  (can-eat snake (rest goos)))]))
+;my-ormap
+
+(define (my-ormap proc lst)
+  (cond ((null? lst) #f)
+        ((proc (first lst)) (proc (first lst)))
+        (else (my-ormap proc (rest lst)))))
+
+;criando uma função para o can-eat com o lambda
+
+(define (my-ormap snake goos)
+  (define head (snake-head snake))
+  (my-ormap (lambda (g) (and (close? head g) g)) goos))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;; TESTES ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(check-equal? (snake-head SNAKE-EXAMPLE) (posn 1 1))
+
+(check-equal? (posn=?  (posn 1 1) (posn 1 1)) #t)
+(check-equal? (posn=?  (posn 1 2) (posn 1 1)) #f)
+
+(check-equal? (close? (first (snake-segs SNAKE-EXAMPLE))
+                      (first GOOS-EXAMPLE)) #t)
+
+(check-equal? (can-eat SNAKE-EXAMPLE GOOS-EXAMPLE) (goo (posn 1 1) 3))
+
+(check-equal? (my-ormap add1 '(3 4 5)) 4)
+(check-equal? (my-ormap add1 '()) #f)
+(check-equal? (my-ormap positive? '(1 2 a)) #t)
+(check-equal? (my-ormap positive? '(-1 -2 3)) #t)
