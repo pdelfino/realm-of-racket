@@ -1,6 +1,6 @@
 #lang racket
 
-;estou estruturando o pit é uma STRUCTURE com dois FIELDS. Snake é o primeiro field, e o segundo filed, GOO, fala o numero de bixinhos
+;estou estruturando o pit. O pit é uma STRUCTURE com dois FIELDS. Snake é o primeiro field, e o segundo filed, GOO, fala o numero de bixinhos
 ;o pit é um FOSSO
 
 (struct pit (snake goos) #:transparent)
@@ -278,7 +278,9 @@
 
 (start-snake)
 
-;;;;;;;;;;;;;;;TESTES PARA CHECAR COMPREENSÃO DO CÓDIGO
+
+
+;TESTES PARA CHECAR COMPREENSÃO DO CÓDIGO
 
 (require rackunit)
 
