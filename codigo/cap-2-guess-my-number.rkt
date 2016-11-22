@@ -19,7 +19,7 @@
   (set! lower (min n m))
   (set! upper (max n m)))
 
-;trabalhando querendo o 12, deu certo, bateu nos dois casos
+;Trabalhando querendo o 12. Deu certo. Bateu nos dois casos
 
-; quero o 13!
+;Quero o 13!
 
