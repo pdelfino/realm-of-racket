@@ -1,6 +1,6 @@
 #lang racket
 
-;função recebe uma lista e returna true (além do restante da lista)
+;função recebe uma lista e retorna true (além do restante da lista)
 ;se o elemento estiver nessa lista! Se não tiver na lista, retorna #f
 
 (require racket/trace)
