@@ -39,7 +39,7 @@
                        ((i '(1 2 3 4 5))
                         #:when (even? i)) (+ sum i)) 6)
 
-; #:when  , hashtag, dois pontos e when serve como o FILTER
+; #:when - hashtag, dois pontos e when serve como o FILTER
 
 (check-equal? (for/list ([ i '(1 2 3 4 5)]
                          [ j '(1 2 3 4)]
