@@ -1,7 +1,9 @@
 #lang racket
 
+
 (require 2htdp/universe 2htdp/image)
 
+;Implementação do Exercício do Cap. 2 com GUI
 (define (guessing-number-game)
   
   (define HEIGHT 600)
