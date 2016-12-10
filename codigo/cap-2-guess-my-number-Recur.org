@@ -1,13 +1,11 @@
 * Implementando uma versão funcional para o jogo "Guess My Number"
 
+    No capítulo 2, o livro nos ensina a construir uma versão imperativa para o famoso jogo "Guess My Number". Como o nosso curso foi conduzido com base no SICP, que explora o paradigma funcional, decidimos criar uma implementação do jogo que fossefuncional. Como é possível observar, nossa implementação trabalha com valores que são alterados nos parâmetros. Cabe ainda dizer que ela recebe o número escolhido para ser advinhado e retorna dois valores, (i) primeiro o valor a ser advinhado e (ii) o número de "tentativas" do algoritmo até achar o número.
+    O comando trace está precedido de um ";", tornando o um comentário. Sugerimos, por fins de exploraço da funço, que o comentário seja retirado. Assim, será possível ver o comportamento dos parâmetros, em especial, a mudança dos intervalos e o número de tentativas. Essa implementação usa uma abordagem de "binary search", reduzindo o intervalo de busca a cada tentativa.
+    
 #+BEGIN_SRC 
 
 #lang racket
-
-(define (guess lower-boundary upper-boundary)
-  (round (/ (+ lower-boundary upper-boundary) 2)))
-
-(require racket/trace)
 
 (require racket/trace rackunit)
 
