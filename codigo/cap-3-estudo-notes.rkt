@@ -1,22 +1,8 @@
 #lang racket
 
-;(string-append "pedro " "delfino")
-
-;(list)
-
-;(cons 'chicken '() )
+(require rackunit racket/trace)
 
 (define lista (list 'beef 'chicken 'pork))
-
-;lista
-
-;(first lista)
-
-;(rest lista)
-
-;(first (rest lista))
-
-;(car (rest (rest lista)))
 
 (struct student (name id# dorm))
 
@@ -27,7 +13,6 @@
 ;(student-dorm calouro1)
 
 ;usar student-name é uma ACCESSSOR FUNCTION
-
 
 (define mimi (student 'Mimi 1234 'NewHall))
 (define nicole (student 'Nicole 5678 'NewHall))
@@ -65,4 +50,24 @@
 (struct example2 (p q r) #:transparent)
 (define ex2 (example2 10 12 13))
 
-ex2
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;; TESTS ;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(check-equal? (string-append "pedro " "delfino") "pedro delfino")
+
+(check-equal? (list) '())
+
+(check-equal? (cons 'chicken '()) '(chicken)) 
+
+(check-equal? lista '(beef chicken pork))
+
+(check-equal? (first lista) 'beef)
+
+(check-equal? (rest lista) '(chicken pork))
+
+(check-equal? (first (rest lista)) (car (rest lista)))
+
+(check-equal? (car (rest (rest lista))) (last lista))
+
+(check-equal? (student-name calouro1) 'pedro)
