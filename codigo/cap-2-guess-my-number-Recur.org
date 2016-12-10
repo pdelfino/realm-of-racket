@@ -2,7 +2,7 @@
 
     No capítulo 2, o livro nos ensina a construir uma versão imperativa para o famoso jogo "Guess My Number". Como o nosso curso foi conduzido com base no SICP, que explora o paradigma funcional, decidimos criar uma implementação do jogo que fosse funcional. Como é possível observar, nossa implementação trabalha com valores que são alterados nos parâmetros. Cabe ainda dizer que ela recebe o número escolhido para ser advinhado e retorna dois valores, (i) o valor que foi advinhado e (ii) o número de "tentativas" do algoritmo para achar o valor a ser advinhado.    
     
-    O comando trace está precedido de um ";", tornando o um comentário. Sugerimos, por fins de exploraço da funço, que o comentário seja retirado. Assim, será possível ver o comportamento dos parâmetros, em especial, a mudança dos intervalos e o número de tentativas. Essa implementação usa uma abordagem de "binary search", reduzindo o intervalo de busca a cada tentativa.
+    O comando trace está precedido de um ";", tornando o um comentário. Sugerimos, para fins de exploração da função, que o comentário seja retirado. Assim, será possível ver o comportamento dos parâmetros, em especial, a mudança dos intervalos e o número de tentativas. Essa implementação usa uma abordagem de "binary search", reduzindo o intervalo de busca a cada tentativa.
     
 #+BEGIN_SRC scheme
 
