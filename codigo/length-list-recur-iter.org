@@ -1,6 +1,6 @@
 * Implementando a built-in length
 
-O livro apresenta a função length, uma construção buil-in que computa o número de elementos de uma lista. Em virtude de objetivos educativos, construímos uma implementação nossa. Fizemos uma definição recursiva com processo iterativo e uma definição recursiva com processo recursivo. Como os testes sugerem, as duas funções criadas produzem o mesmo output da função built-in length.
+O livro apresenta a função length, uma construção buil-in que computa o número de elementos de uma lista. Em virtude de objetivos educativos, construímos uma implementação nossa. Fizemos uma definição recursiva com processo iterativo e uma definição recursiva com processo recursivo. Como os testes sugerem, inserindo o mesmo output, as duas funções criadas produzem o mesmo output da função built-in length.
 
 #+BEGIN_SRC 
 
