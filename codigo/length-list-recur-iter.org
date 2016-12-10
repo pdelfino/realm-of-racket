@@ -21,6 +21,10 @@ O livro apresenta a função length, uma construção buil-in que computa o núm
   ;(trace iter)
   (iter lista 0))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;; TESTS ;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (check-equal? (len-iter (list 1 2 3 4 5))
               (len-recur (list 1 2 3 4 5))
               (length (list 1 2 3 4 5)))
