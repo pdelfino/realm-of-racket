@@ -5,7 +5,7 @@
     
     O comando trace está precedido de um ";", tornando o um comentário. Sugerimos, por fins de exploraço da funço, que o comentário seja retirado. Assim, será possível ver o comportamento dos parâmetros, em especial, a mudança dos intervalos e o número de tentativas. Essa implementação usa uma abordagem de "binary search", reduzindo o intervalo de busca a cada tentativa.
     
-#+BEGIN_SRC scheme
+#+BEGIN_SRC racket
 
 #lang racket
 
