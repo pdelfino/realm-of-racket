@@ -1,4 +1,12 @@
-* Enunciado
+* Função Length
+
+O livro apresenta a função (length lst). Em virtude de objetivos educativos, construímos uma implementação nossa da função built-in length.
+
+Fizemos uma definição recursiva com processo iterativo e uma definição recursiva com processo recursivo.
+
+Como os testes sugerem, as duas funções criadas produzem o mesmo output da função built-in length.
+
+#+BEGIN_SRC 
 
 #lang racket
 
@@ -20,3 +28,4 @@
 (check-equal? (len-iter (list 1 2 3 4 5))
               (len-recur (list 1 2 3 4 5))
               (length (list 1 2 3 4 5)))
+#+END_SRC
