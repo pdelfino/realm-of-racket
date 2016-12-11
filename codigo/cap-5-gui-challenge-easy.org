@@ -41,10 +41,11 @@ Quando nós fizemos o código, usamos a  imagem que está disponibilizada neste 
           (to-draw locomotive-running))
           #+END_SRC
           
-O código abaixo pode ser copiado, colado e rodado que ele irá funcionar. No entanto, ele foi transformado em linguagem de máquina 
-por conter uma imagem. Não sabemos ao certo porque isso acontece.
+O código abaixo, por sua vez, está pronto para ser copiado, colado e rodado. Apenas com isso o script irá rodar e ele irá funcionar. 
 
-O desafio do capítulo 5 era fazer uma locomotiva ir até o final da tela e reaparecer.
+No entanto, ele foi transformado em linguagem de máquina/compilado por conter uma imagem. Não sabemos ao certo porque isso acontece.
+
+O desafio do capítulo 5 era fazer uma locomotiva ir até o final da tela e reaparecer. Segue:
 
 #+BEGIN_SRC scheme
 #reader(lib"read.ss""wxme")WXME0108 ## 
