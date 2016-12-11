@@ -4,7 +4,7 @@ Alguns capítulos do livro, além de construírem um jogo passo-a-passo com o le
 
 São problemas que podem ser resolvidos com a técnica passada no capítulo.
 
-Esse código envolve uma imagem. Essa imagem foi inserida via botão "Insert" no Dr. Racket.
+Esse código envolve uma imagem, sendo que ela foi inserida no script via botão "Insert" do Dr. Racket.
 
 Ao subir no github o script, que possui uma imagem no meio, por algum motivo que desconhecemos, fica codificado em linguagem de máquina.
 
