@@ -1,6 +1,6 @@
 #+Title: Implementando a função built-in =build-list=
 
-Implementamos a função =build-lis= para ganhar maior fluência na linguagem.
+Implementamos a função =build-list= para ganhar maior fluência na linguagem.
 
 Um primeiro ponto a ser destacado é que a =build-list=, quando acompanhada de =values=, produz o mesmo output da função =range=.
 
