@@ -5,7 +5,7 @@ também chamdas de "GUI" (Graphic User Interface).
 
 Ao rodar o código abaixo, Dr. Racket irá abrir uma janela retangular, onde o usuário poderá interagir.
 
-O funcionamento do código é o mesmo do código apresentado no capítulo.
+O funcionamento do código é o mesmo do código apresentado no capítulo 2.
 
 No entanto, ao invés de usar o painel interativo do IDE, o usuário irá interagir com a interface gráfica.
 
@@ -59,13 +59,13 @@ O comando  =(guessing-number-game)= é responsável por dar início à partida.
               (on-key deal-with-guess)
               (to-draw render)
               (stop-when single? render-last-scene)))
-  
+              
   (define (deal-with-guess w key)
-    (cond [(key=? key "up") (bigger w)]
-          [(key=? key "down") (smaller w)]
-          [(key=? key "q") (stop-with w)]
-          [(key=? key "=") (stop-with w)]
-          [else w]))
+    (cond ((key=? key "up") (bigger w))
+          ((key=? key "down") (smaller w))
+          ((key=? key "q") (stop-with w))
+          ((key=? key "=") (stop-with w))
+          (else w)))
   
   (define (smaller w)
     (interval (interval-small w)
