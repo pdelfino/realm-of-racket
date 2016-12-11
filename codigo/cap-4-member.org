@@ -1,0 +1,37 @@
+#+Title: Implementando a built-in =member=
+
+No cap 4, a built-in member foi apresentada. Com fins educativos, construímos uma versão nossa dessa função.
+Como os testes indicam, nossa implementação retorna os mesmos outputs da função built-in caso receba os mesmos inputs. 
+
+Para os nossos testes pegamos exemplos da documentação de Racket.
+
+#+BEGIN_SRC scheme
+
+#lang racket
+
+(require racket/trace rackunit)
+
+(define (member-mine num lista)
+  (cond ((empty? lista) #f)
+        ((equal? (car lista) num) lista)       
+        (else (member-mine num (cdr lista)))))
+#+END_SRC
+
+Para os nossos testes pegamos exemplos da documentação de Racket.
+
+#+BEGIN_SRC scheme
+
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;; TESTS ;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(check-equal? (member-mine 1 '(() 1 2 3 4 5 6 7 8))
+              (member 1 '(() 1 2 3 4 5 6 7 8)))
+
+(check-equal? (member-mine '() '(() 1 2 3 4 5 6 7 8))
+              (member '() '(() 1 2 3 4 5 6 7 8)))
+
+(check-equal? (member-mine 9 '(() 1 2 3 4 5 6 7 8))
+              (member 9 '(() 1 2 3 4 5 6 7 8)))
+              
+        #+END_SRC
