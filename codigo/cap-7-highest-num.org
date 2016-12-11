@@ -1,0 +1,37 @@
+#+Title: Função =apply= e encontrar o maior número
+
+No capítulo 7, o livro apresenta a função =apply= , que pode ser usada como nos casos descritos abaixo:
+
+#+BEGIN_SRC scheme
+
+#lang racket
+
+(require rackunit racket/trace)
+
+(check-equal? (apply + '(1 2 3)) 6)
+
+(check-equal? (apply + 1 2 '(3)) 6)
+
+#+END_SRC
+
+O livro apresenta uma forma de usar o =apply= para encontrar o maior número numa lista com vários números, com a função =highest=. 
+Apenas para fins de treinamento, usamos criamos uma outra função recursiva com processo iterativo para fazer a mesma coisa. 
+Como os testes sugerem, a partir do mesmo input, as duas funções geraram o mesmo output.
+
+#+BEGIN_SRC scheme
+
+(define (highest lon) (apply max lon))
+
+(define (highest-num-recur lst)
+  (define (iter lst accu)
+    (cond ((null? lst) accu)
+          ((< accu (first lst)) (iter (rest lst) (+ accu (- (first lst) accu))))
+          (else (iter (rest lst) accu))))
+  ;(trace iter)
+  (iter lst 0))
+
+(check-equal? (highest-num-recur '(58 64 77 77 22 94 93 78))
+              (highest '(58 64 77 77 22 94 93 78)))
+              
+              
+#+END_SRC
