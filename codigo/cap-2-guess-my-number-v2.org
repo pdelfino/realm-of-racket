@@ -1,7 +1,8 @@
 #+Title: Implementação imperativa do "Guess My Number"
 
+O código abaixo é uma implementação dentro do paradigma imperativo do jogo "Guess My Number".
 
-
+São definidas duas várias com valores constantes, em caixa alto (convenção da comunidade de Racket). 
 
 #+BEGIN_SRC scheme
 
@@ -29,4 +30,27 @@
 
 #+END_SRC
 
+Para jogar o jogo, execute o código e, depois, use o painel interativo para dar comandos que alteram os valores das variáveis.
 
+Vamos supor que um jogador quer que o computador advinhe um número. Vamos supor que ele escolheu o número 49.
+
+Para "brincar" com o computador, ele deve fazer os seguintes comandos no painel interativo, a começa por =(guess)=:
+
+#+BEGIN_SRC scheme
+
+> (guess)
+50
+> (smaller)
+25
+> (bigger)
+37
+> (bigger)
+43
+> (bigger)
+46
+> (bigger)
+48
+> (bigger)
+49
+
+#+END_SRC
