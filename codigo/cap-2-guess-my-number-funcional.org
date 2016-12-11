@@ -30,15 +30,21 @@
                       (guess lower-boundary upper-boundary)))))
   ;(trace iter)
   (iter number 0 1 100 (guess 1 100)))
+  
+ #+END_SRC
+
+Como a nossa função retorna dois valores, a elaboração de testes unitários é mais complicada e rackunit não oferece uma construção para isso. O que fizemos abaixo foi usar o comando =define-values=, associar cada valor retornado pela função a uma variável e, posteriormente, checar se o valor retornar está de acordo com nossa expectativa
+
+#+BEGIN_SRC scheme
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;; TESTS ;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define-values (par1 par2) (game-iter 10))
+(define-values (var1 var2) (game-iter 10))
 
-(check-equal? par1 5)
+(check-equal? var1 5)
 
-(check-equal? par2 10)
+(check-equal? var2 10)
 
 #+END_SRC
