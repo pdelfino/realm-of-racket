@@ -1,3 +1,7 @@
+#+Title: Implementação do Jogo "Snake" e o primeiro desafio do capítulo
+
+#+BEGIN_SRC scheme
+
 #lang racket
 
 ;estou estruturando o pit. O pit é uma STRUCTURE com dois FIELDS. Snake é o primeiro field, e o segundo filed, GOO, fala o numero de bixinhos
@@ -295,3 +299,7 @@
 (check-equal? (can-eat snake-example goo-example) (first goo-example))
 (check-equal? (can-eat snake-example goo-example-two) #f)
 (check-equal? (can-eat snake-example goo-example-three) (second goo-example-three))
+
+
+
+#+END_SRC
