@@ -14,8 +14,8 @@ Um primeiro ponto a ser destacado é que a =build-list=, quando acompanhada de =
 
 #+END_SRC
 
-Alguns built-list são mais sofisticados e aceitam um procedure como argumento. Sendo, inclusive, possível usar procedimentos anônimos,
-isto é, expressões lambda.
+É possível sofisticar =built-list= e usar um procedure como argumento. É, inclusive, possível usar procedimentos anônimos,
+isto é, expressões =lambda= dentro de =build-list=.
 
 #+BEGIN_SRC scheme
 
