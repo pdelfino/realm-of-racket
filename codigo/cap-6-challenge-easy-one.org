@@ -20,28 +20,25 @@ O ponto chave no código desse game está nas 4 estruturas =structs= criadas par
 
 (struct pit (snake goos) #:transparent)
 
-; a estrutura da cobra também tem dois FIELDS, a direção e a LISTA de segmentos, segs
-;segs nunca vai ser vazio, a cobra sempre tem pelo menos uma unidade de comprimento
-
 (struct snake (dir segs) #:transparent)
-
-; posn é um ponto no espaço de duas dimensões
 
 (struct posn (x y) #:transparent)
 
-;pensa que cada corpo é um objeto no espaço, ocorre colisão quando dois objetos tem a mesma posição, ou seja, a mesma posn
-
-;loc é a posição do GOO
-;expire representa o tempo que o GOO ainda vai existir, depois disso ele desaparece
-
 (struct goo (loc expire) #:transparent)
+#+END_SRC
 
-;defini uma snake de exemplo usando a estrutura, no primeiro campo, tem up, no segundo tem o tamanho da cobra
+Um exemplo de uma cobra criada usando as estruturas acima. A cobra está na direção "up" e tem um tamanho definido pela lista =(list (posn 1 1) (posn 1 2) (posn 1 3))= , sendo que que cada lista com posn é a posição de um membro da cobra. 
+
+#+BEGIN_SRC scheme
+
 (define snake-example
   (snake "up" (list (posn 1 1) (posn 1 2) (posn 1 3))))
+  
+#+END_SRC
 
-;defini um exemplo de goo, na real, criei DOIS GOOS, um na posicação (1,0) e outro na posição (5,8),
-; cada um feito para sobreviver um tempo também
+Um exemplo de dois goos, um na posicação (1,0) e outro na posição (5,8). Sendo que o primeiro tem 3 segundos de vida e o segundo tem 15 segundos de vida. Outros dois exemplos de goos em seguida.
+
+#+BEGIN_SRC scheme
 
 (define goo-example
   (list (goo (posn 1 1) 3) (goo (posn 5 8) 15)))
@@ -52,16 +49,22 @@ O ponto chave no código desse game está nas 4 estruturas =structs= criadas par
 (define goo-example-three
   (list (goo (posn 5 8) 3) (goo (posn 1 1) 15)))
 
+#+END_SRC
 
-;esse pit coloca as duas coisas definidas acima juntas
+Definição de um pit coloca os dois objetos criados acima juntos:
+
+#+BEGIN_SRC scheme
+
 (define pit-example
   (pit snake-example goo-example))
 
-;to usando pit aqui dentro da sua estrutura, primeiro a cobra, e, no outro field, varios GOOS juntos
+#+END_SRC
 
-;CONSTRUINDO O JOGO MESMO
+Uma vez eplicitado a estrutura básica do jogo, vamos ao game mesmo.
 
-(require 2htdp/universe 2htdp/image)
+#+BEGIN_SRC scheme
+
+(require 2htdp/universe 2htdp/image rackunit racket/trace)
 
 (define (start-snake)
   (big-bang (pit (snake "right" (list (posn 1 1))) ;snake começa na direção da direita, na posição (1,1) e com uma unidade de cumprimento, a cabeça
@@ -71,26 +74,22 @@ O ponto chave no código desse game está nas 4 estruturas =structs= criadas par
             (to-draw render-pit) ;to-draw chama o RENDER-pit
             (stop-when dead? render-end))) ; o stop-when dead? chama o render-end
 
-; w é o TICK RATE
-(define (next-pit w) ; essa função controla o tempo, faz o GOO envelhecer, e a cobra ENGORDAR se ela come
-  (define snake (pit-snake w)) ;pit-snake nada mais é que a SNAKE no PIT
+;o parâmetro w é o tick rate, a passagem temporal importante para o código funcionar
+(define (next-pit w) ; essa função controla o tempo, faz o goo envelhecer, e a cobra "engordar" quando come
+  (define snake (pit-snake w)) ;pit-snake nada mais é que colocar a snake no pit
   (define goos (pit-goos w))
-  (define goo-to-eat (can-eat snake goos)) ;veja que goo to eat é definido INTERNAMENTE
+  (define goo-to-eat (can-eat snake goos)) ;veja que "goo-to-eat" é definido internamente
   (if goo-to-eat
       (pit (grow snake) (age-goo (eat goos goo-to-eat))); se GOO to eat for verdadeiro, chama pit (grow snake)
       (pit (slither snake) (age-goo goos)))); se não for verdadeiro, chama o pit com (slither snake)
-
-; age-goo faz os GOOS envelhecerem!
-
-;olha só que bacana, essa função é recursiva
 
 (define (can-eat snake goos)
   (cond [(empty? goos) #f] ;se a lista de goos for vazia, a cobra não consegue comer
         [else (if (close? (snake-head snake) (first goos)) ;close checa se a cabeça da cobra está perto de um GOO
                   (first goos)
                   (can-eat snake (rest goos)))]))
-;definindo close
 
+;close checa se dois objetos estão próximos
 (define (close? s g)
   (posn=? s (goo-loc g)))
 
@@ -121,11 +120,11 @@ O ponto chave no código desse game está nas 4 estruturas =structs= criadas par
   (posn (+ (posn-x p) dx)
         (+ (posn-y p) dy)))
 
-;definição de age-goo cá embaixo
-;o que rot faz? não é built-in
+; age-goo faz os GOOS envelhecerem!
 (define (age-goo goos)
   (rot (renew goos)))
 
+; rot checa se o tempo de validade dos gos j expirou
 (define (rot goos)
   (cond [(empty? goos) empty]
         [else (cons (decay (first goos)) (rot (rest goos)))]))
@@ -144,7 +143,6 @@ O ponto chave no código desse game está nas 4 estruturas =structs= criadas par
   (goo (posn (add1 (random (sub1 SIZE)))
              (add1 (random (sub1 SIZE))))
        EXPIRATION-TIME))
-
 
 (define (direct-snake w ke)
   (cond [(dir? ke) (world-change-dir w ke)]
@@ -212,11 +210,14 @@ O ponto chave no código desse game está nas 4 estruturas =structs= criadas par
   (or (self-colliding? snake) (wall-colliding? snake)))
 
 (define (render-end w)
-  (overlay (text "Game Over" ENDGAME-TEXT-SIZE "black")))
-
-#|(define (render-end w)
-  (overlay (text "Game over" ENDGAME-TEXT-SIZE "black")
-(render-pit w)))|#
+  (overlay (text
+            (string-append
+             "GAME OVER, YOU HAVE EATEN "
+             (number->string (length (snake-segs (pit-snake w))))
+             " GOOS")
+            ENDGAME-TEXT-SIZE
+            "black")
+           (render-pit w)))
 
 (define (self-colliding? snake)
   (cons? (member (snake-head snake) (snake-body snake))))
@@ -245,42 +246,50 @@ O ponto chave no código desse game está nas 4 estruturas =structs= criadas par
 
 (define (decay g)
   (goo (goo-loc g) (sub1 (goo-expire g))))
+  
+  #+END_SRC
 
-;; Constants
+O jogo exige uma série de variáveis com valores constantes para funcionar:
 
-;; Tick Rate 
+#+BEGIN_SRC scheme
+
+; Passagem do tempo
 (define TICK-RATE 1/10)
 
-;; Board Size Constants
+; Tamanho do "tabuleiro"
 (define SIZE 30)
 
-;; Snake Constants
+; Constante da cobra
 (define SEG-SIZE 15)
 
-;; Goo Constants
+; Constante do GOO
 (define MAX-GOO 5)
+
 (define EXPIRATION-TIME 150)
 
-;; GRAPHICAL BOARD
+; Parte gráfica do tabuleiro
 (define WIDTH-PX  (* SEG-SIZE 30))
+
 (define HEIGHT-PX (* SEG-SIZE 30))
 
-;; Visual constants
+; Constantes visuais
 (define MT-SCENE (empty-scene WIDTH-PX HEIGHT-PX))
+
 (define GOO-IMG (bitmap "goo.gif"))
+
 (define SEG-IMG  (bitmap "body.gif"))
+
 (define HEAD-IMG (bitmap "head.gif"))
 
 (define HEAD-LEFT-IMG HEAD-IMG)
+
 (define HEAD-DOWN-IMG (rotate 90 HEAD-LEFT-IMG))
+
 (define HEAD-RIGHT-IMG (flip-horizontal HEAD-LEFT-IMG))
+
 (define HEAD-UP-IMG (flip-vertical HEAD-DOWN-IMG))
 
 (define ENDGAME-TEXT-SIZE 15)
-
-(require racket/trace)
-
-(length (snake-segs snake-example))
 
 (define (random-num-goos)
   (define num (random 5 15))
@@ -290,14 +299,14 @@ O ponto chave no código desse game está nas 4 estruturas =structs= criadas par
         (random-num-goos-iter (- num 1) (cons (fresh-goo) accu ))))
   (trace random-num-goos-iter)
   (random-num-goos-iter num '()))
+  
+  #+END_SRC
+  
+  O comando =(start-snake)= faz o jogo começar.
 
-(start-snake)
+Ao longo do desenvolvimento foram feitos vários testes entender as funções e estruturas usadas:
 
-
-
-;TESTES PARA CHECAR COMPREENSÃO DO CÓDIGO
-
-(require rackunit)
+#+BEGIN_SRC scheme
 
 (check-equal? (snake-segs snake-example) (list (posn 1 1) (posn 1 2) (posn 1 3)))
 (check-equal? (snake-dir snake-example) "up")
@@ -310,7 +319,5 @@ O ponto chave no código desse game está nas 4 estruturas =structs= criadas par
 (check-equal? (can-eat snake-example goo-example) (first goo-example))
 (check-equal? (can-eat snake-example goo-example-two) #f)
 (check-equal? (can-eat snake-example goo-example-three) (second goo-example-three))
-
-
 
 #+END_SRC
