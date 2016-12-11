@@ -63,7 +63,6 @@ Definição de um pit coloca os dois objetos criados acima juntos:
 Uma vez eplicitado a estrutura básica do jogo, vamos ao game mesmo.
 
 #+BEGIN_SRC scheme
-
 (require 2htdp/universe 2htdp/image rackunit racket/trace)
 
 (define (start-snake)
@@ -84,10 +83,10 @@ Uma vez eplicitado a estrutura básica do jogo, vamos ao game mesmo.
       (pit (slither snake) (age-goo goos)))); se não for verdadeiro, chama o pit com (slither snake)
 
 (define (can-eat snake goos)
-  (cond [(empty? goos) #f] ;se a lista de goos for vazia, a cobra não consegue comer
-        [else (if (close? (snake-head snake) (first goos)) ;close checa se a cabeça da cobra está perto de um GOO
+  (cond ((empty? goos) #f) ;se a lista de goos for vazia, a cobra não consegue comer
+        (else (if (close? (snake-head snake) (first goos)) ;close checa se a cabeça da cobra está perto de um GOO
                   (first goos)
-                  (can-eat snake (rest goos)))]))
+                  (can-eat snake (rest goos))))))
 
 ;close checa se dois objetos estão próximos
 (define (close? s g)
@@ -105,16 +104,16 @@ Uma vez eplicitado a estrutura básica do jogo, vamos ao game mesmo.
          (cons (next-head sn) (all-but-last (snake-segs sn)))))
 
 (define (all-but-last segs)
-  (cond [(empty? (rest segs)) empty]
-        [else (cons (first segs) (all-but-last (rest segs)))]))
+  (cond ((empty? (rest segs)) empty)
+        (else (cons (first segs) (all-but-last (rest segs))))))
 
 (define (next-head sn)
   (define head (snake-head sn))
   (define dir (snake-dir sn))
-  (cond [(string=? dir "up") (posn-move head 0 -1)]
-        [(string=? dir "down") (posn-move head 0 1)]
-        [(string=? dir "left") (posn-move head -1 0)]
-        [(string=? dir "right") (posn-move head 1 0)]))
+  (cond ((string=? dir "up") (posn-move head 0 -1))
+        ((string=? dir "down") (posn-move head 0 1))
+        ((string=? dir "left") (posn-move head -1 0))
+        ((string=? dir "right") (posn-move head 1 0))))
 
 (define (posn-move p dx dy)
   (posn (+ (posn-x p) dx)
@@ -126,15 +125,15 @@ Uma vez eplicitado a estrutura básica do jogo, vamos ao game mesmo.
 
 ; rot checa se o tempo de validade dos gos j expirou
 (define (rot goos)
-  (cond [(empty? goos) empty]
-        [else (cons (decay (first goos)) (rot (rest goos)))]))
+  (cond ((empty? goos) empty)
+        (else (cons (decay (first goos)) (rot (rest goos))))))
 
 (define (renew goos)
-  (cond [(empty? goos) empty]
-        [(rotten? (first goos))
-         (cons (fresh-goo) (renew (rest goos)))]
-        [else
-         (cons (first goos) (renew (rest goos)))]))
+  (cond ((empty? goos) empty)
+        ((rotten? (first goos))
+         (cons (fresh-goo) (renew (rest goos))))
+        (else
+         (cons (first goos) (renew (rest goos))))))
 
 (define (rotten? g)
   (zero? (goo-expire g)))
@@ -145,8 +144,8 @@ Uma vez eplicitado a estrutura básica do jogo, vamos ao game mesmo.
        EXPIRATION-TIME))
 
 (define (direct-snake w ke)
-  (cond [(dir? ke) (world-change-dir w ke)]
-        [else w]))
+  (cond ((dir? ke) (world-change-dir w ke))
+        (else w)))
 
 (define (dir? x)
   (or (key=? x "up")
@@ -156,18 +155,18 @@ Uma vez eplicitado a estrutura básica do jogo, vamos ao game mesmo.
 
 (define (world-change-dir w d)
   (define the-snake (pit-snake w))
-  (cond [(and (opposite-dir? (snake-dir the-snake) d)
+  (cond ((and (opposite-dir? (snake-dir the-snake) d)
               ;; consists of the head and at least one segment
               (cons? (rest (snake-segs the-snake))))
-         (stop-with w)]
-        [else
-         (pit (snake-change-dir the-snake d) (pit-goos w))]))
+         (stop-with w))
+        (else
+         (pit (snake-change-dir the-snake d) (pit-goos w)))))
 
 (define (opposite-dir? d1 d2)
-  (cond [(string=? d1 "up") (string=? d2 "down")]
-        [(string=? d1 "down") (string=? d2 "up")]
-        [(string=? d1 "left") (string=? d2 "right")]
-        [(string=? d1 "right") (string=? d2 "left")]))
+  (cond ((string=? d1 "up") (string=? d2 "down"))
+        ((string=? d1 "down") (string=? d2 "up"))
+        ((string=? d1 "left") (string=? d2 "right"))
+        ((string=? d1 "right") (string=? d2 "left"))))
 
 ;relacionada ao to-draw do BIG BANG
 (define (render-pit w)
@@ -179,18 +178,18 @@ Uma vez eplicitado a estrutura básica do jogo, vamos ao game mesmo.
     (img-list+scene (snake-body snake) SEG-IMG scene))
   (define dir (snake-dir snake))
   (img+scene (snake-head snake)
-             (cond [(string=? "up" dir) HEAD-UP-IMG]
-                   [(string=? "down" dir) HEAD-DOWN-IMG]
-                   [(string=? "left" dir) HEAD-LEFT-IMG]
-                   [(string=? "right" dir) HEAD-RIGHT-IMG])
+             (cond ((string=? "up" dir) HEAD-UP-IMG)
+                   ((string=? "down" dir) HEAD-DOWN-IMG)
+                   ((string=? "left" dir) HEAD-LEFT-IMG)
+                   ((string=? "right" dir) HEAD-RIGHT-IMG))
              snake-body-scene))
 
 (define (img-list+scene posns img scene)
-  (cond [(empty? posns) scene]
-        [else (img+scene
+  (cond ((empty? posns) scene)
+        (else (img+scene
                (first posns)
                img
-               (img-list+scene (rest posns) img scene))]))
+               (img-list+scene (rest posns) img scene)))))
 
 (define (img+scene posn img scene)
   (place-image img
@@ -200,9 +199,9 @@ Uma vez eplicitado a estrutura básica do jogo, vamos ao game mesmo.
 
 (define (goo-list+scene goos scene)
   (define (get-posns-from-goo goos)
-    (cond [(empty? goos) empty]
-          [else (cons (goo-loc (first goos))
-                      (get-posns-from-goo (rest goos)))]))
+    (cond ((empty? goos) empty)
+          (else (cons (goo-loc (first goos))
+                      (get-posns-from-goo (rest goos))))))
   (img-list+scene (get-posns-from-goo goos) GOO-IMG scene))
 
 (define (dead? w)
