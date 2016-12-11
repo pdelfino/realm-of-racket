@@ -1,3 +1,51 @@
+#+Title: Primeiro desafio do Capítulo 5
+
+Alguns capítulos do livro, além de construírem um jogo passo-a-passo com o leitor, disponibilizam desafios.
+
+São problemas que podem ser resolvidos com a técnica passada no capítulo.
+
+Esse código envolve uma imagem. Essa imagem foi inserida via botão "Insert" no Dr. Racket.
+
+Ao subir no github o script, que possui uma imagem no meio, por algum motivo que desconhecemos, fica codificado em linguagem de máquina.
+
+Assim, apresentaremos aqui dois códigos. O primeiro é o código em Racket e está codificado de forma que humanos conseguem ler.
+Atenção, para o código abaixo funcionar, é preciso que o trecho ='imagem-de-locomotiva-a-ser-inserida= seja deleta e um arquivo de
+uma imagem de uma locomotiva seja inserida, seja em jpeg ou outro formato:
+
+#+BEGIN_SRC scheme
+
+#lang racket
+
+(require 2htdp/universe 2htdp/image)
+
+(define LOCOMOTIVE 'imagem-de-locomotiva-a-ser-inserida)
+
+(define HEIGHT 800)
+
+(define WIDTH 800)
+
+;essa função muda a velocidade com que a figura se mexe
+
+(define (add-3-to-state current-state)
+  (if (< current-state 1055)
+      (+ current-state 6)
+      (- current-state 800)))
+
+(define (locomotive-running current-state)
+  (place-image LOCOMOTIVE current-state (/ WIDTH 2)
+               (empty-scene WIDTH HEIGHT)))
+
+(big-bang 0
+          (on-tick add-3-to-state)
+          (to-draw locomotive-running))
+          #+END_SRC
+          
+O código abaixo pode ser copiado, colado e rodado que ele irá funcionar. No entanto, ele foi transformado em linguagem de máquina 
+por conter uma imagem. Não sabemos ao certo porque isso acontece.
+
+O desafio do capítulo 5 era fazer uma locomotiva ir até o final da tela e reaparecer.
+
+#+BEGIN_SRC scheme
 #reader(lib"read.ss""wxme")WXME0108 ## 
 #|
    This file uses the GRacket editor format.
@@ -1137,3 +1185,4 @@
 0 0 24 3 2 #"))"
 0 0 24 29 1 #"\n"
 0           0
+#+END_SRC
