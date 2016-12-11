@@ -54,3 +54,7 @@ Para "brincar" com o computador, ele deve fazer os seguintes comandos no painel 
 49
 
 #+END_SRC
+
+Percebe-se, que após 7 tentativas, o computador finalmente acerta.
+
+Considerando um intervalo possvel de números de 1 a 100, o computador irá acertar o número escolhido pelo jogador em, no máximo, 7 tentativas.
