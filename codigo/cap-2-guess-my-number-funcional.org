@@ -35,8 +35,10 @@
 ;;;;;;;;; TESTS ;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;(check-equal? (game-iter 10) 5 10)
+(define-values (par1 par2) (game-iter 10))
 
-(game-iter 10)
+(check-equal? par1 5)
+
+(check-equal? par2 10)
 
 #+END_SRC
