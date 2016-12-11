@@ -36,10 +36,10 @@ Em determinado trecho do cap 7, somos apresentados à built-in =ormap= e convida
 ; , com a localização e o tempo que ele irá se "expirar"
 
 (define (can-eat snake goos)
-  (cond [(empty? goos) #f] ;se a lista de goos for vazia, a cobra não consegue comer
-        [else (if (close? (snake-head snake) (first goos)) ;close checa se a cabeça da cobra está perto de um GOO
+  (cond ((empty? goos) #f) ;se a lista de goos for vazia, a cobra não consegue comer
+        (else (if (close? (snake-head snake) (first goos)) ;close checa se a cabeça da cobra está perto de um GOO
                   (first goos)
-                  (can-eat snake (rest goos)))]))
+                  (can-eat snake (rest goos))))))
 ;my-ormap
 
 (define (my-ormap proc lst)
