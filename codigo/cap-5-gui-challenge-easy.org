@@ -9,8 +9,9 @@ Esse código envolve uma imagem. Essa imagem foi inserida via botão "Insert" no
 Ao subir no github o script, que possui uma imagem no meio, por algum motivo que desconhecemos, fica codificado em linguagem de máquina.
 
 Assim, apresentaremos aqui dois códigos. O primeiro é o código em Racket e está codificado de forma que humanos conseguem ler.
-Atenção, para o código abaixo funcionar, é preciso que o trecho ='imagem-de-locomotiva-a-ser-inserida= seja deleta e um arquivo de
-uma imagem de uma locomotiva seja inserida, seja em jpeg ou outro formato:
+Atenção, para o código abaixo funcionar, é preciso que o trecho =imagem-de-locomotiva-a-ser-inserida= seja deleta e um arquivo de uma imagem de uma locomotiva seja inserida, seja em jpeg, png ou outro formato.
+
+Quando nós fizemso o código, usamos a  imagem que est disponibilizada neste repositrio em https://github.com/pdelfino/LP-projeto-Daniel-Pedro/blob/master/codigo/cap-5-challenge-image-locomotive.png
 
 #+BEGIN_SRC scheme
 
