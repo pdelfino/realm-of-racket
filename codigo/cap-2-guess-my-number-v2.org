@@ -1,3 +1,10 @@
+#+Title: Implementação imperativa do "Guess My Number"
+
+
+
+
+#+BEGIN_SRC scheme
+
 #lang racket
 
 (define LOWER 1)
@@ -20,5 +27,6 @@
   (set! lower (min upper (add1 (guess))))
   (guess))
 
+#+END_SRC
 
 
