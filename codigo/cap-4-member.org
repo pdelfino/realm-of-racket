@@ -38,10 +38,10 @@ Não conseguimos reproduzir esse comportamento descrito na documentação:
 
 #+BEGIN_SRC scheme
 > (member #'x (list #'x #'y) free-identifier=?)
-
 '(#<syntax:499:0 x> #<syntax:499:0 y>)
+
 > (member #'a (list #'x #'y) free-identifier=?)
 #f
     #+END_SRC
 
-Acabamos deixando de lado por ter parecido uma funcionalidade bem avançada de member.
+Acabamos deixando de lado por ter parecido ser uma funcionalidade bem avançada de =member=.
