@@ -1,0 +1,42 @@
+#+Title: A biblioteca de testes =Rackunit=
+
+Nos códigos que foram documentados anteriormente, dos capítulos 2 e 3, a biblioteca =rackunit=  até foi usada 
+para organizar o nosso estudo.
+
+No entanto, essa é uma mudança "retroativa". Até chegarmos no capítulo 4, não conhecíamos a ideia de testes.
+
+Foi aqui que ela nos foi apresentada.
+
+Primeiro, importamos a biblioteca.
+
+#+BEGIN_SRC scheme
+
+#lang racket
+
+(require rackunit)
+
+#+END_SRC
+
+Depois, criamos um teste. Se a expectativa estive correta, o computar irá rodar o script e não irá acusar nada:
+
+#+BEGIN_SRC scheme
+
+(check-equal? (add1 6) 7)
+
+#+END_SRC
+
+Quando o teste não passa, uma mensagem de erro é indicada:
+
+#+BEGIN_SRC scheme
+
+>> (check-equal? (add1 6) 8)
+
+--------------------
+FAILURE
+actual:     7
+expected:   8
+name:       check-equal?
+location:   (unsaved-editor 5 0 35 25)
+expression: (check-equal? (add1 6) 8)
+
+#+END_SRC
