@@ -4,7 +4,10 @@ O capítulo 9 apresenta diversos loops. No fundo, como a citação de Peter Land
 são apenas açúcares sintáticos, uma vez que qualquer um desses loops pode ser criado a partir de definições recursivas de processos
 imperativos ou recursivos.
 
+Contudo, não deixa de ser legal/interessante conhecê-los. Eles podem muitas vezes, contribuir para reduzir o número de linhas em um programa.
+
 O livro apresenta loops como:
+
 - for/list;
 - for*;
 - for/fold;
