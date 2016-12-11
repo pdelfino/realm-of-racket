@@ -1,28 +1,50 @@
-#lang racket
+#+Title: "Guess My Number" com implementação gráfica
 
+No capítulo 5 do "Realm of Racket", somos apresentados à biblioteca 2htdp que nos permite criar programas com interfaces gráficas,
+também chamdas de "GUI" (Graphic User Interface).
+
+Ao rodar o código abaixo, Dr. Racket irá abrir uma janela retangular, onde o usuário poderá interagir.
+
+O funcionamento do código é o mesmo do código apresentado no capítulo.
+
+No entanto, ao invés de usar o painel interativo do IDE, o usuário irá interagir com a interface gráfica.
+
+O comando  =(guessing-number-game)= é responsável por dar início à partida.
+
+#+BEGIN_SRC scheme
+
+#lang racket
 
 (require 2htdp/universe 2htdp/image)
 
-;Implementação do Exercício do Cap. 2 com GUI
 (define (guessing-number-game)
   
   (define HEIGHT 600)
+  
   (define WIDTH 600)
+  
   (define TEXT-SIZE 25)
+  
   (define TEXT-X 10)
+  
   (define TEXT-UPPER-Y 20)
+  
   (define TEXT-LOWER-Y 480)
+  
   (define SIZE 50)
   
   (struct interval (small big))
+  
   (define HELP-TEXT
     (text "🠙 for larger numbers, 🠛 for smaller ones"
           TEXT-SIZE
           "orange"))
+  
   (define HELP-TEXT2
     (text "Press = when your number is guessed; q to quit"
           TEXT-SIZE
           "orange"))
+  
   (define COLOR "red")
   
   (define MT-SC
@@ -68,3 +90,5 @@
   (start 1 100))
 
 (guessing-number-game)
+
+#+END_SRC
