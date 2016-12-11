@@ -53,8 +53,8 @@ Com fins educativos, decidimos implementar uma verão nossa para =build-list= . 
 
 (define (my-build-list-book n f)
   (define (builder k)
-    (cond [(= n k) empty]
-          [else (cons (f k) (builder (add1 k)))]))
+    (cond ((= n k) empty)
+          (else (cons (f k) (builder (add1 k))))))
   (builder 0))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;
