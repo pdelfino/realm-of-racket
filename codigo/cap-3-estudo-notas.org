@@ -1,3 +1,9 @@
+#+Title: Comentários sobre o capítulo 3
+
+O capítulo 3 apresenta o conceito de estrutura, definido como =struct=. Até então, algo novo para gente. Aqui estão os nossos rascunhos/testes ao longo do livro para entender o capítulo.
+
+Destaque para o uso de =#:transparent=, comando que torna a estrutura transparente, algo importante para o desenvolvimento do cdigo. Por default, as estruturas em Racket são opacas, já que assim espaço é poupado.
+
 #+BEGIN_SRC scheme
 
 #lang racket
@@ -20,8 +26,12 @@
 
 (define in-class (list mimi nicole rose eric))
 
-;criando uma nova estrutura "student body", via struct
-;detalhe que ela possui uma instância e 4 fields
+#+END_SRC
+
+Aqui criamos uma nova estrutura =student body=, via =struct=
+Detalhe que ela possui uma instância e 4 =fields=
+
+#+BEGIN_SRC scheme
 
 (struct student-body (freshman sophomores junior seniors))
 
@@ -30,7 +40,10 @@
                 (list (student 'Jeff 5678 'OldHall))
                 (list (student 'Bob 4231 'Apartment))
                 empty))
+                
+#+END_SRC
 
+#+BEGIN_SRC scheme
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;; TESTS ;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;
