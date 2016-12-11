@@ -4,7 +4,7 @@ O capítulo 9 apresenta diversos loops. No fundo, como a citação de Peter Land
 são apenas açúcares sintáticos, uma vez que qualquer um desses loops pode ser criado a partir de definições recursivas de processos
 imperativos ou recursivos.
 
-Contudo, não deixa de ser legal/interessante conhecê-los. Eles podem muitas vezes, contribuir para reduzir o número de linhas em um programa.
+Contudo, não deixa de ser legal/interessante conhecê-los. Eles podem, muitas vezes, contribuir para reduzir o número de linhas em um programa.
 
 O livro apresenta loops como:
 
@@ -34,14 +34,14 @@ Destaque aqui para a construção =#:when= que funciona um pouco como um filtro.
 
 #+BEGIN_SRC scheme
 
-(check-equal? (for/list ([ i '(1 2 3 4 5)]
-                         [ j '(1 2 3 4)]
-                         [ k '(5 4 3 2 1)])
+(check-equal? (for/list (( i '(1 2 3 4 5))
+                         ( j '(1 2 3 4))
+                         ( k '(5 4 3 2 1)))
                 (list i j k))
               '((1 1 5) (2 2 4) (3 3 3) (4 4 2)))
 
-(check-equal? (for/list ([i '(1 2 3 4 5)]
-                         [s '("a" "b" "c" "d" "e")]
+(check-equal? (for/list ((i '(1 2 3 4 5))
+                         (s '("a" "b" "c" "d" "e"))
                          #:when (and (even? i) (string=? s "d")))
                 i) '(4))
 
