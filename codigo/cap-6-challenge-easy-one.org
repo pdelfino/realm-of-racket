@@ -1,11 +1,19 @@
 #+Title: Implementação do Jogo "Snake" e o primeiro desafio do capítulo
 
+No capítulo 6, o livro começa a ficar mais complexo e construímos o jogo Snake.
+
+A forma usada pelos autores para criarem um jogo é por meio de estruturar =strucut=.
+
+O ponto chave no código desse game está nas 4 estruturas =structs= criadas para representar os seguintes objetos:
+
+(i)  =pit= - o fosso do "castelo" onde a cobra fica). O fosso tem como =fields= a cobra e os "goos", o alimento da cobra;
+(ii) =snake= - a cobra, formada pelos =fields= de direção e de quantidade de segmentos;
+(iii) =posn= - a posição, que usa do plano coordenado XY para representar a posição; e, por fim,
+(iv) =goo= o goo, isto é, o alimento da cobra que a faz crescer, formado por =fields= que representam localização e o tempo em que o goo será "extinto" do fosso/mundo.
+
 #+BEGIN_SRC scheme
 
 #lang racket
-
-;estou estruturando o pit. O pit é uma STRUCTURE com dois FIELDS. Snake é o primeiro field, e o segundo filed, GOO, fala o numero de bixinhos
-;o pit é um FOSSO
 
 (struct pit (snake goos) #:transparent)
 
