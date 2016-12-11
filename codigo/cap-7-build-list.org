@@ -29,4 +29,45 @@ isto é, expressões =lambda= dentro de =build-list=.
 
 #+END_SRC
 
-Com fins educativos, decidimos implementar uma verão nossa para =build-list=. O próprio livro, no capítulo 7, também aprensenta uma construção de build-list. Abaixo serão aprensentadas três funções, uma implementação nossa recursiva, uma implementação nossa iterativa e a implementação sugerido pelo livro - além disso, testes envolvendo as três funções com exemplos da documentação.
+Com fins educativos, decidimos implementar uma verão nossa para =build-list= . O próprio livro, no capítulo 7, também aprensenta uma construção de =build-list=. O tempo todos somos incentivados a construir essas funçes built-in em Racket. Abaixo serão aprensentadas três funções, uma implementação nossa recursiva, uma implementação nossa iterativa e a implementação do livro. Além disso, apresentamos testes envolvendo as três funções e tendo como parâmetro a função =build-list= da linguagem, de modo a garantir que o output está correto. 
+
+#+BEGIN_SRC scheme
+
+#lang racket
+
+(require rackunit racket/trace)
+
+(define (my-build-list-iter list-len proc)
+  (define (iter list-len accu n)
+    (if (= (length accu) list-len)
+        (reverse accu)
+        (iter list-len (cons (proc n) accu) (add1 n))))
+  ;(trace iter)
+  (iter list-len '() 0))
+
+(define (my-build-list-recur list-len proc)
+  (if (= list-len 0)
+      '()
+      (cons
+       (proc (sub1 list-len)) (my-build-list-recur (sub1 list-len) proc))))
+
+(define (my-build-list-book n f)
+  (define (builder k)
+    (cond [(= n k) empty]
+          [else (cons (f k) (builder (add1 k)))]))
+  (builder 0))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;; TESTS ;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(check-equal? (build-list 10 values)
+               (my-build-list-iter 10 values))
+
+(check-equal? (build-list 10 values)
+               (reverse (my-build-list-recur 10 values)))
+
+(check-equal? (build-list 10 values)
+               (my-build-list-book 10 values))
+      
+      #+END_SRC
