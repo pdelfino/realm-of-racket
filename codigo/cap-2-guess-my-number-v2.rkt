@@ -1,16 +1,16 @@
 #lang racket
 
+(define LOWER 1)
+
+(define UPPER 100)
+
 (define (start n m)
   (set! lower (min n m))
   (set! upper (max n m))
   (guess))
 
-(define lower 1)
-(define upper 100)
-
 (define (guess)
   (quotient (+ lower upper) 2))
-
 
 (define (smaller)
   (set! upper (max lower (sub1 (guess))))
