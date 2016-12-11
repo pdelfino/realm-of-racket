@@ -43,6 +43,9 @@ Detalhe que ela possui uma instância e 4 =fields=
                 
 #+END_SRC
 
+Conforme íamos explorando os exemplos do livro, fomos executando alguns comandos.
+Apenas para fins de exemplo, aqui estão, no formato de testes, alguns dos comandos que exploramos.
+
 #+BEGIN_SRC scheme
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;; TESTS ;;;;;;;;;
