@@ -1,4 +1,34 @@
+#+Title: Implementando a função built-in =build-list=
+
+Implementamos a função =build-lis= para ganhar maior fluência na linguagem.
+
+Um primeiro ponto a ser destacado é que a =build-list=, quando acompanhada de =values=, produz o mesmo output da função =range=.
+
+#+BEGIN_SRC scheme
+
 #lang racket
+
+(require rackunit)
+
+(check-equal? (build-list 10 values) (range 0 10) '(0 1 2 3 4 5 6 7 8 9))
+
+#+END_SRC
+
+Alguns built-list são mais sofisticados e aceitam um procedure como argumento. Sendo, inclusive, possível usar procedimentos anônimos,
+isto é, expressões lambda.
+
+#+BEGIN_SRC scheme
+
+#lang racket
+
+(require rackunit)
+
+(check-equal? (build-list 10 sub1) '(-1 0 1 2 3 4 5 6 7 8))
+
+(check-equal? (build-list 10 (lambda (x) (* 5 x))) '(0 5 10 15 20 25 30 35 40 45))
+
+#+END_SRC
+
 
 (require rackunit racket/trace)
 
