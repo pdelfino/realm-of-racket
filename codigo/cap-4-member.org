@@ -3,8 +3,6 @@
 No cap 4, a built-in member foi apresentada. Com fins educativos, construímos uma versão nossa dessa função.
 Como os testes indicam, nossa implementação retorna os mesmos outputs da função built-in caso receba os mesmos inputs. 
 
-Para os nossos testes pegamos exemplos da documentação de Racket.
-
 #+BEGIN_SRC scheme
 
 #lang racket
@@ -35,3 +33,15 @@ Para os nossos testes pegamos exemplos da documentação de Racket.
               (member 9 '(() 1 2 3 4 5 6 7 8)))
               
         #+END_SRC
+
+Não conseguimos reproduzir esse comportamento descrito na documentação:
+
+#+BEGIN_SRC scheme
+> (member #'x (list #'x #'y) free-identifier=?)
+
+'(#<syntax:499:0 x> #<syntax:499:0 y>)
+> (member #'a (list #'x #'y) free-identifier=?)
+#f
+    #+END_SRC
+
+Acabamos deixando de lado por ter parecido uma funcionalidade bem avançada de member.
