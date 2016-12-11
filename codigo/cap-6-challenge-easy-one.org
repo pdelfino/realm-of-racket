@@ -62,6 +62,13 @@ Definição de um pit coloca os dois objetos criados acima juntos:
 
 Uma vez eplicitado a estrutura básica do jogo, vamos ao game mesmo.
 
+Antes ressaltamos que esse arquivo resolve um desafio do capítulo:
+
+* Change the program so that the final image displays the number of pieces of goo
+that have been eaten.
+
+A chave para essa solução está na função =render-end=
+
 #+BEGIN_SRC scheme
 (require 2htdp/universe 2htdp/image rackunit racket/trace)
 
