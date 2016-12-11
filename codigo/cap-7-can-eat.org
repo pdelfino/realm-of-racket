@@ -32,23 +32,20 @@ Em determinado trecho do cap 7, somos apresentados à built-in =ormap= e convida
 (define (close? s g)
   (posn=? s (goo-loc g)))
 
-;função checa se tem algum GOO perto da cabeça da cobra e retorna o GOO inteiro,
-; , com a localização e o tempo que ele irá se "expirar"
-
+#|função checa se tem algum GOO perto da cabeça da cobra e retorna o GOO inteiro,
+com a localização e o tempo que ele irá se "expirar"|#
 (define (can-eat snake goos)
   (cond ((empty? goos) #f) ;se a lista de goos for vazia, a cobra não consegue comer
         (else (if (close? (snake-head snake) (first goos)) ;close checa se a cabeça da cobra está perto de um GOO
                   (first goos)
                   (can-eat snake (rest goos))))))
-;my-ormap
-
+;uma implementação do ormap
 (define (my-ormap proc lst)
   (cond ((null? lst) #f)
         ((proc (first lst)) (proc (first lst)))
         (else (my-ormap proc (rest lst)))))
 
-;criando uma função para o can-eat com o lambda
-
+;criando uma função para o can-eat com o lambda e o ormap
 (define (my-ormap snake goos)
   (define head (snake-head snake))
   (my-ormap (lambda (g) (and (close? head g) g)) goos))
