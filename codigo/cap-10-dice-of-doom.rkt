@@ -1,7 +1,6 @@
 #lang racket
 
-(require 2htdp/universe)
-(require rackunit rackunit/text-ui)
+(require 2htdp/universe 2htdp/image racket/trace rackunit/text-ui)
 
 (struct ttt (board moves))
 
@@ -23,11 +22,9 @@
 ;  (generate-tree the-empty-board player1 player2))
 
 
-
 (define INIT-PLAYER 0)
+
 (define INIT-SPARE-DICE 10)
-
-
 
 (struct dice-world (src board gt))
 
