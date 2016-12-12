@@ -1,25 +1,33 @@
 #lang racket
 
-(require 2htdp rackunit racket/trace)
+(require 2htdp/universe)
+(require rackunit rackunit/text-ui)
 
 (struct ttt (board moves))
 
 (struct action (player position))
 
-(define (generate-ttt-tree player1 player2)
-  (define (generate-tree board player opponent)
-    (ttt board (generate-moves board player opponent)))
-  (define (generate-moves board0 player opponent)
-    (define free-fields (board-find-free-fields board0))
-    (for/list ((f free-fields))
-      
-      (define actnow (action player f))
-      
-      (define board1 (board-take-field board0 player f))
-      
-      (list actnow (generate-tree board1 opponent player))))
+;(define (generate-ttt-tree player1 player2)
+;  (define (generate-tree board player opponent)
+;    (ttt board (generate-moves board player opponent)))
+;  (define (generate-moves board0 player opponent)
+;    (define free-fields (board-find-free-fields board0))
+;    (for/list ((f free-fields))
+;      
+;      (define actnow (action player f))
+;      
+;      (define board1 (board-take-field board0 player f))
+;      
+;      (list actnow (generate-tree board1 opponent player))))
   ;; -- start here --
-  (generate-tree the-empty-board player1 player2))
+;  (generate-tree the-empty-board player1 player2))
+
+
+
+(define INIT-PLAYER 0)
+(define INIT-SPARE-DICE 10)
+
+
 
 (struct dice-world (src board gt))
 
@@ -62,6 +70,9 @@
   (define player (game-player tree))
   (or (no-more-moves? tree)
       (for/and ((t board)) (= (territory-player t) player))))
+
+(define (no-more-moves? x)
+  (empty? (game-moves x)))
 
 (define (draw-end-of-dice-world w)
   (define board (dice-world-board w))
@@ -237,13 +248,13 @@
 (define (add-dice-to t)
   (territory-set-dice t (add1 (territory-dice t))))
 
-(define (neighbors n)
-  (list upper-right
-        bottom-right
-        upper-left
-        lower-left
-        right
-        left))
+;(define (neighbors n)
+;  (list upper-right
+;        bottom-right
+;        upper-left
+;        lower-left
+;        right
+;        left))
 
 (define (add b x)
   (if b empty (list x)))
@@ -262,20 +273,13 @@
       (even-row pos top? bottom? right? left?)
       (odd-row pos top? bottom? right? left?)))
 
-(define (even-row pos top? bottom?
-                  (append (add (or top? right?)
-                               (add (or bottom? right?)
-                                    (add top?
-                                         (add bottom?
-                                              (add right?
-                                                   (add left?
-                                                        right? left?)
-                                                   (add1 (- pos BOARD)))
-                                              (add1 (+ pos BOARD)))
-                                         (- pos BOARD))
-                                    (+ pos BOARD))
-                               (add1 pos))
-                          (sub1 pos))))
+(define (even-row pos top? bottom? right? left?)
+                  (append (add (or top? right?) (add1 (- pos board)))
+                          (add (or bottom? right?) (add1 (+ pos board)))
+                          (add top? (- pos board))
+                          (add bottom? (+ pos board))
+                          (add right? (add1 pos))
+                          (add left? (sub1 pos))))
 
 (define (attackable? board player src dst)
   (define dst-t
