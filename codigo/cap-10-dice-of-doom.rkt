@@ -18,13 +18,29 @@
 ;      (define board1 (board-take-field board0 player f))
 ;      
 ;      (list actnow (generate-tree board1 opponent player))))
-  ;; -- start here --
+;  ; -- start here --
 ;  (generate-tree the-empty-board player1 player2))
 
 
 (define INIT-PLAYER 0)
-
 (define INIT-SPARE-DICE 10)
+(define TEXT-SIZE 15)
+(define TEXT-COLOR "red")
+(define SIDE 80)
+(define BOARD 4)
+(define INSTRUCT "← & → para selecionar, <m> parar marcar o território, <d> para desmarcar e <p> para passar a vez")
+(define PLAYER# 2)
+(define DICE# 3)
+(define INFO-X-OFFSET 80)
+(define INFO-Y-OFFSET 40)
+(define OFFSET0 (* 2 SIDE))
+(define ROTATION 30)
+(define GRID (* BOARD BOARD))
+
+
+(define INSTRUCTIONS (text INSTRUCT TEXT-SIZE TEXT-COLOR))
+(define WIDTH (+ 50 (image-width INSTRUCTIONS)))
+(define HEIGHT 800)
 
 (struct dice-world (src board gt))
 
@@ -77,10 +93,23 @@
   (define background (add-board-to-scene w (PLAIN)))
   (overlay message background))
 
+(define (PLAIN)
+  (define imgwidth (image-width INSTRUCTIONS))
+  (define brdwidth (* SIDE 2 BOARD))
+  (set! WIDTH (+ (max imgwidth brdwidth) 50))
+  (set! HEIGHT (+ (* SIDE 2 BOARD) 50))
+  (empty-scene WIDTH HEIGHT))
+
 (define (draw-dice-world w)
   (add-player-info
    (game-player (dice-world-gt w))
    (add-board-to-scene w (ISCENE))))
+
+(define (ISCENE)
+  (define mount (PLAIN))
+  (when (or (> (image-width mount) 1300) (> (image-height mount) 800))
+    (error "Impossível desenhar a cena com ~s x ~s" (image-width mount) (image-height mount)))
+  (place-image INSTRUCTIONS (* 0.5 WIDTH) (HEIGHT) mount))
 
 (define (interact-with-board w k)
   (cond [(key=? "left" k)
@@ -100,6 +129,9 @@
   (define txt (text str TEXT-SIZE TEXT-COLOR))
   (place-image txt (- WIDTH INFO-X-OFFSET) INFO-Y-OFFSET s))
 
+(define (whose-turn player)
+  (if (= player PLAYER#) PLAYER# PLAYER#))
+
 (define (add-board-to-scene w s)
   (define board
     (dice-world-board w))
@@ -118,6 +150,11 @@
       (overlay FOCUS t-image)
       t-image))
 
+(define FOCUS (rotate ROTATION (regular-polygon SIDE 6 "outline" "black")))
+(define (hexagon color)
+  (rotate ROTATION (regular-polygon SIDE HEX "solid" color)))
+(define HEX 6)
+
 (define (add-territory t image scene)
   (place-image image (territory-x t) (territory-y t) scene))
 (define (draw-territory t)
@@ -127,6 +164,23 @@
 (define (color-chooser n)
   (list-ref COLORS n))
 
+(define COLORS
+  (list (make-color 255 0 0 100)
+        (make-color 0 0 255 100)
+        (make-color 0 255 0 100)))
+
+(define (get-dice-image i)
+  (list-ref IMG-LIST (modulo i (length IMG-LIST))))
+
+(define (get-dice-img i)
+  (list-ref IMG-LIST (modulo i (length IMG-LIST))))
+
+(define dice1 (bitmap "dice1.png"))
+(define dice2 (bitmap "dice2.png"))
+(define dice3 (bitmap "dice3.png"))
+(define dice4 (bitmap "dice4.png"))
+(define IMG-LIST (list dice1 dice2 dice3 dice4))
+
 (define (draw-dice n)
   (define first-dice (get-dice-image 0))
   (define height-dice (image-height first-dice))
@@ -135,8 +189,7 @@
     (define y-offset (* height-dice (+ .5 (* i .25))))
     (overlay/offset s 0 y-offset dice-image)))
 
-(define (get-dice-img i)
-  (list-ref IMG-LIST (modulo i (length IMG-LIST))))
+
 
 
 (define (refocus-board w direction)
@@ -170,18 +223,13 @@
 (define (find-move moves action)
   (define m
     (findf (lambda (m) (equal? (move-action m) action)) moves))
-  (and m (move gt m)))
+  (and m (move-gt m)))
 
 (define (mark w)
-  (define tree
-    (define board
-      (define source
-        (define focus
-          (dice-world-gt w))
-        (dice-world-board w))
-      (dice-world-src w))
-    (territory-index (first board)))
-  
+  (define source (dice-world-src w))
+  (define board (dice-world-board w))
+  (define tree (dice-world-gt w))
+  (define focus (territory-index (first board)))
   (if source
       (attacking w source focus)
       (dice-world focus board tree)))
@@ -213,6 +261,10 @@
 (define (get-row pos)
   (quotient pos BOARD))
 
+(define X-OFFSET (image-width (hexagon "black")))
+(define Y-OFFSET (* (image-height (hexagon "black")) 3/4))
+(define board (territory-build))
+
 (define (game-tree board player dice)
   ;; create tree of attacks from this position; add passing move
   (define (attacks board)
@@ -227,7 +279,7 @@
   ;; create a passing move and the rest of the game tree
   (define (passes board)
     (define-values (new-dice newb) (distribute board player dice))
-    (move ‘() (game-tree newb (switch player) new-dice)))
+    (move '() (game-tree newb (switch player) new-dice)))
   ;; -- START: --
   (game board player (attacks board)))
 
@@ -244,6 +296,11 @@
 
 (define (add-dice-to t)
   (territory-set-dice t (add1 (territory-dice t))))
+
+(define (territory-set-dice ter dice)
+  (territory (territory-index ter)
+             (territory-player ter)
+             dice))
 
 ;(define (neighbors n)
 ;  (list upper-right
@@ -278,6 +335,16 @@
                           (add right? (add1 pos))
                           (add left? (sub1 pos))))
 
+(define (odd-row pos top? bottom? right? left?)
+  (define prev (- pos BOARD))
+  (define next (+ pos BOARD))
+  (append (add top?               prev)
+          (add bottom?            next)
+          (add (or top? left?)    (sub1 prev))
+          (add (or bottom? left?) (sub1 next))
+          (add right?             (add1 pos))
+          (add left?              (sub1 pos))))
+
 (define (attackable? board player src dst)
   (define dst-t
     (findf (lambda (t) (= (territory-index t) dst)) board))
@@ -295,9 +362,14 @@
            (territory-set-player s player)]
           [else t])))
 
+(define (territory-set-player ter player)
+  (territory (territory-index ter)
+             player
+             (territory-dice ter)))
+
 (define (won board)
   (define-values (best-score w) (winners board))
-  (if (cons? (rest w)) "It's a tie." "You won."))
+  (if (cons? (rest w)) "Foi empate." "Você venceu."))
 
 (define (winners board)
   (for/fold ([best 0][winners '()]) ([p PLAYER#])
@@ -309,3 +381,4 @@
 (define (sum-territory board player)
   (for/fold ([result 0]) ([t board])
     (if (= (territory-player t) player) (+ result 1) result)))
+
