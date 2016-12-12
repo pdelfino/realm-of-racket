@@ -1,5 +1,7 @@
 #+Title: Implementação do Jogo "Snake" e o primeiro desafio do capítulo
 
+Observação esse script exige imagens que estão disponibilizadas no repositório em: 
+
 No capítulo 6, o livro começa a ficar mais complexo e construímos o jogo Snake.
 
 A forma usada pelos autores para criarem um jogo é por meio de estruturar =strucut=.
