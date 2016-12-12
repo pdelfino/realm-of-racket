@@ -1,6 +1,6 @@
 #lang racket
 
-(require 2htdp)
+(require 2htdp rackunit racket/trace)
 
 (struct ttt (board moves))
 
