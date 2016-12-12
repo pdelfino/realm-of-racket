@@ -1,6 +1,7 @@
 #+Title: Implementação do Jogo "Snake" e o primeiro desafio do capítulo
 
-Observação esse script exige imagens que estão disponibilizadas no repositório em: 
+*Observação esse script exige imagens que estão disponibilizadas em:
+https://github.com/pdelfino/LP-projeto-Daniel-Pedro/tree/master/codigo/cap-6-gifs *
 
 No capítulo 6, o livro começa a ficar mais complexo e construímos o jogo Snake.
 
