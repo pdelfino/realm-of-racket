@@ -27,10 +27,7 @@
 
 ; Lazy Evaluation - Cap 11
 (define-values (game game? game-board game-player game-moves)
-  (let ()
-    (struct game (board player lazy-tree))
-    (values game game? game-board game-player
-            (lambda (x) (force (game-lazy-tree x))))))
+  (lambda (x) (force (game-lazy-tree x))))
 
 (struct dice-world (src board gt))
 
