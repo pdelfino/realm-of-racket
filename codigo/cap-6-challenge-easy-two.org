@@ -1,32 +1,23 @@
-#lang racket
+#+Title: Implementando "challenge two" do Cap 6
 
-;estou estruturando o pit é uma STRUCTURE com dois FIELDS. Snake é o primeiro field, e o segundo filed, GOO, fala o numero de bixinhos
-;o pit é um FOSSO
+* Challenge easy - Alter the game so that it has a randomly varying number of goos.
+
+Segue a implementação:
+
+#+BEGIN_SRC scheme
+
+#lang racket
 
 (struct pit (snake goos) #:transparent)
 
-; a estrutura da cobra também tem dois FIELDS, a direção e a LISTA de segmentos, segs
-;segs nunca vai ser vazio, a cobra sempre tem pelo menos uma unidade de comprimento
-
 (struct snake (dir segs) #:transparent)
-
-; posn é um ponto no espaço de duas dimensões
 
 (struct posn (x y) #:transparent)
 
-;pensa que cada corpo é um objeto no espaço, ocorre colisão quando dois objetos tem a mesma posição, ou seja, a mesma posn
-
-;loc é a posição do GOO
-;expire representa o tempo que o GOO ainda vai existir, depois disso ele desaparece
-
 (struct goo (loc expire) #:transparent)
 
-;defini uma snake de exemplo usando a estrutura, no primeiro campo, tem up, no segundo tem o tamanho da cobra
 (define snake-example
   (snake "up" (list (posn 1 1) (posn 1 2) (posn 1 3))))
-
-;defini um exemplo de goo, na real, criei DOIS GOOS, um na posicação (1,0) e outro na posição (5,8),
-; cada um feito para sobreviver um tempo também
 
 (define goo-example
   (list (goo (posn 1 1) 3) (goo (posn 5 8) 15)))
@@ -37,20 +28,8 @@
 (define goo-example-three
   (list (goo (posn 5 8) 3) (goo (posn 1 1) 15)))
 
-
-;esse pit coloca as duas coisas definidas acima juntas
 (define pit-example
   (pit snake-example goo-example))
-
-;olha aí, como eu acesso os fields de um objeto, primeiro pegando um GOO e depois pegando a ABCISSA da localização desse GOO!
-
-#|USA O TESTES PARA MOSTRAR COMO CHAMA CARALHO!!!!|#
-
-
-;to usando pit aqui dentro da sua estrutura, primeiro a cobra, e, no outro field, varios GOOS juntos
-
-;CONSTRUINDO O JOGO MESMO
-;
 
 (require 2htdp/universe 2htdp/image)
 
@@ -76,16 +55,11 @@
       (pit (grow snake) (age-goo (eat goos goo-to-eat))); se GOO to eat for verdadeiro, chama pit (grow snake)
       (pit (slither snake) (age-goo goos)))); se não for verdadeiro, chama o pit com (slither snake)
 
-; age-goo faz os GOOS envelhecerem!
-
-;olha só que bacana, essa função é recursiva
-
 (define (can-eat snake goos)
   (cond [(empty? goos) #f] ;se a lista de goos for vazia, a cobra não consegue comer
         [else (if (close? (snake-head snake) (first goos)) ;close checa se a cabeça da cobra está perto de um GOO
                   (first goos)
                   (can-eat snake (rest goos)))]))
-;definindo close
 
 (define (close? s g)
   (posn=? s (goo-loc g)))
@@ -117,8 +91,6 @@
   (posn (+ (posn-x p) dx)
         (+ (posn-y p) dy)))
 
-;definição de age-goo cá embaixo
-;o que rot faz? não é built-in
 (define (age-goo goos)
   (rot (renew goos)))
 
@@ -240,31 +212,23 @@
 (define (decay g)
   (goo (goo-loc g) (sub1 (goo-expire g))))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;; CONSTANTES ;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Tick Rate 
 (define TICK-RATE 1/10)
 
-;; Board Size Constants
 (define SIZE 30)
 
-;; Snake Constants
 (define SEG-SIZE 15)
 
-;; Goo Constants
 (define MAX-GOO 5)
+
 (define EXPIRATION-TIME 150)
 
-;; GRAPHICAL BOARD
 (define WIDTH-PX  (* SEG-SIZE 30))
 (define HEIGHT-PX (* SEG-SIZE 30))
 
-;; Visual constants
 (define MT-SCENE (empty-scene WIDTH-PX HEIGHT-PX))
 (define GOO-IMG (bitmap "goo.gif"))
 (define SEG-IMG  (bitmap "body.gif"))
@@ -286,9 +250,7 @@
 (start-snake)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;TESTES PARA CHECAR COMPREENSÃO DO CÓDIGO;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require rackunit)
