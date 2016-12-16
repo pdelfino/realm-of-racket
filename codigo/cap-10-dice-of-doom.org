@@ -1,3 +1,4 @@
+As imagens para essse jogo estão em: https://github.com/pdelfino/LP-Realm-Of-Racket/tree/master/codigo/cap-10-images
 
 #+BEGIN_SRC scheme
 
