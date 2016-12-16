@@ -6,38 +6,21 @@
 
 (struct action (player position))
 
-;(define (generate-ttt-tree player1 player2)
-;  (define (generate-tree board player opponent)
-;    (ttt board (generate-moves board player opponent)))
-;  (define (generate-moves board0 player opponent)
-;    (define free-fields (board-find-free-fields board0))
-;    (for/list ((f free-fields))
-;      
-;      (define actnow (action player f))
-;      
-;      (define board1 (board-take-field board0 player f))
-;      
-;      (list actnow (generate-tree board1 opponent player))))
-;  ; -- start here --
-;  (generate-tree the-empty-board player1 player2))
-
-
+;Definições de Variáveis
 (define INIT-PLAYER 0)
 (define INIT-SPARE-DICE 10)
 (define TEXT-SIZE 15)
-(define TEXT-COLOR "red")
+(define TEXT-COLOR "orange")
 (define SIDE 80)
-(define BOARD 4)
-(define INSTRUCT "← & → para selecionar, <m> parar marcar o território, <d> para desmarcar e <p> para passar a vez")
+(define BOARD 2)
+(define INSTRUCT "← & → para selecionar, <enter> parar marcar o território, <d> para desmarcar e <p> para passar a vez")
 (define PLAYER# 2)
-(define DICE# 3)
-(define INFO-X-OFFSET 80)
-(define INFO-Y-OFFSET 40)
+(define DICE# 4)
+(define INFO-X-OFFSET 100)
+(define INFO-Y-OFFSET 50)
 (define OFFSET0 (* 2 SIDE))
 (define ROTATION 30)
 (define GRID (* BOARD BOARD))
-
-
 (define INSTRUCTIONS (text INSTRUCT TEXT-SIZE TEXT-COLOR))
 (define WIDTH (+ 50 (image-width INSTRUCTIONS)))
 (define HEIGHT 800)
@@ -101,15 +84,14 @@
   (empty-scene WIDTH HEIGHT))
 
 (define (draw-dice-world w)
-  (add-player-info
    (game-player (dice-world-gt w))
-   (add-board-to-scene w (ISCENE))))
+   (add-board-to-scene w (ISCENE)))
 
 (define (ISCENE)
-  (define mount (PLAIN))
-  (when (or (> (image-width mount) 1300) (> (image-height mount) 800))
-    (error "Impossível desenhar a cena com ~s x ~s" (image-width mount) (image-height mount)))
-  (place-image INSTRUCTIONS (* 0.5 WIDTH) (HEIGHT) mount))
+  (define mt (PLAIN))
+  (when (or (> (image-width mt) 1280) (> (image-height mt) 800))
+    (error 'scene "it is impossible to draw a ~s x ~s game scene for a 1280 x 800 laptop screen" (image-width mt) (image-height mt)))
+  (place-image INSTRUCTIONS (* .5 WIDTH) (* .9 HEIGHT) mt))
 
 (define (interact-with-board w k)
   (cond [(key=? "left" k)
@@ -123,14 +105,6 @@
         [(key=? "d" k)
          (unmark w)]
         [else w]))
-
-(define (add-player-info player s)
-  (define str (whose-turn player))
-  (define txt (text str TEXT-SIZE TEXT-COLOR))
-  (place-image txt (- WIDTH INFO-X-OFFSET) INFO-Y-OFFSET s))
-
-(define (whose-turn player)
-  (if (= player PLAYER#) PLAYER# PLAYER#))
 
 (define (add-board-to-scene w s)
   (define board
@@ -188,9 +162,6 @@
     (define dice-image (get-dice-image (+ i 1)))
     (define y-offset (* height-dice (+ .5 (* i .25))))
     (overlay/offset s 0 y-offset dice-image)))
-
-
-
 
 (define (refocus-board w direction)
   (define source (dice-world-src w))
@@ -266,7 +237,6 @@
 (define board (territory-build))
 
 (define (game-tree board player dice)
-  ;; create tree of attacks from this position; add passing move
   (define (attacks board)
     (for*/list ([src board]
                 [dst (neighbors (territory-index src))]
@@ -276,11 +246,9 @@
       (define newb (execute board player from dst dice))
       (define more (cons (passes newb) (attacks newb)))
       (move (list from dst) (game newb player more))))
-  ;; create a passing move and the rest of the game tree
   (define (passes board)
     (define-values (new-dice newb) (distribute board player dice))
     (move '() (game-tree newb (switch player) new-dice)))
-  ;; -- START: --
   (game board player (attacks board)))
 
 (define (switch player)
@@ -300,15 +268,9 @@
 (define (territory-set-dice ter dice)
   (territory (territory-index ter)
              (territory-player ter)
-             dice))
-
-;(define (neighbors n)
-;  (list upper-right
-;        bottom-right
-;        upper-left
-;        lower-left
-;        right
-;        left))
+             dice
+             (territory-x ter)
+             (territory-y ter)))
 
 (define (add b x)
   (if b empty (list x)))
@@ -328,12 +290,12 @@
       (odd-row pos top? bottom? right? left?)))
 
 (define (even-row pos top? bottom? right? left?)
-                  (append (add (or top? right?) (add1 (- pos board)))
-                          (add (or bottom? right?) (add1 (+ pos board)))
-                          (add top? (- pos board))
-                          (add bottom? (+ pos board))
-                          (add right? (add1 pos))
-                          (add left? (sub1 pos))))
+  (append (add (or top? right?)    (add1 (- pos BOARD)))
+          (add (or bottom? right?) (add1 (+ pos BOARD)))
+          (add top?                (- pos BOARD))
+          (add bottom?             (+ pos BOARD))
+          (add right?              (add1 pos))
+          (add left?               (sub1 pos))))
 
 (define (odd-row pos top? bottom? right? left?)
   (define prev (- pos BOARD))
@@ -365,7 +327,9 @@
 (define (territory-set-player ter player)
   (territory (territory-index ter)
              player
-             (territory-dice ter)))
+             (territory-dice ter)
+             (territory-x ter)
+             (territory-y ter)))
 
 (define (won board)
   (define-values (best-score w) (winners board))
@@ -381,4 +345,3 @@
 (define (sum-territory board player)
   (for/fold ([result 0]) ([t board])
     (if (= (territory-player t) player) (+ result 1) result)))
-
