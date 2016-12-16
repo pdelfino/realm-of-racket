@@ -1,3 +1,6 @@
+
+#+BEGIN_SRC scheme
+
 #lang racket
 
 (require 2htdp/universe 2htdp/image racket/trace rackunit/text-ui)
@@ -345,3 +348,4 @@
 (define (sum-territory board player)
   (for/fold ([result 0]) ([t board])
     (if (= (territory-player t) player) (+ result 1) result)))
+    #+END_SRC
