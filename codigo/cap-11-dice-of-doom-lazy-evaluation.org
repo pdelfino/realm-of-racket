@@ -1,3 +1,6 @@
+
+#+BEGIN_SRC scheme
+
 #lang racket
 
 (require 2htdp/universe 2htdp/image racket/trace rackunit/text-ui)
