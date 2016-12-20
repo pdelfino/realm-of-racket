@@ -29,6 +29,11 @@ No código abaixo, tentamos implementar o conceito de lazy evaluation para torna
 (define WIDTH (+ 50 (image-width INSTRUCTIONS)))
 (define HEIGHT 800)
 
+    #+END_SRC
+  
+Nessa parte não conseguimos fazer o Lazy funcionar
+
+#+BEGIN_SRC scheme
 ; Lazy Evaluation - Cap 11
 (define-values (game game? game-board game-player game-moves)
   (lambda (x) (force (game-lazy-tree x))))
