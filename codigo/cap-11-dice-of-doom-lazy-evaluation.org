@@ -1,3 +1,4 @@
+No código abaixo, tentamos implementar o conceito de lazy evaluation para tornar o jogo Dice of Doom mais rápido. No entanto, não conseguimos evoluir em um trecho.
 
 #+BEGIN_SRC scheme
 
