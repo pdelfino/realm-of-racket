@@ -1,9 +1,19 @@
+Implementação dos conceito do capítulo 11
+
+Definição de Lazy Evaluation a partir de um lambda.
+
+#+BEGIN_SRC scheme
+
 #lang racket
 
-;Definição de Lazy Evaluation a partir de um lambda.
 (define lazy+ (lambda () (apply + (build-list 50000 values))))
 
-;Definições mais complexas de Lazy Evaluation
+#+END_SRC
+    
+Definições mais complexas de Lazy Evaluation
+
+#+BEGIN_SRC scheme
+
 (define (make-lazy+ i)
   (lambda () (apply + (build-list (* 500 i) values))))
 
@@ -13,9 +23,11 @@
   (for/list ([thunk l][i (in-naturals)]
                       #:when (zero? (remainder i 1000)))
     (thunk)))
-;========================================================
+#+END_SRC
 
-;Lazy Evaluation + Memoized Computations (Memorização)
+Lazy Evaluation + Memoized Computations (Memorização)
+
+#+BEGIN_SRC scheme
 
 (define (memoize suspended-c)
   (define hidden #f)
@@ -27,8 +39,12 @@
                 hidden])))
 
 (define mlazy+ (memoize lazy+))
+#+END_SRC
 
-;Outra versão de memoize proposta pelo livro
+Outra versão de memoize proposta pelo livro
+
+#+BEGIN_SRC scheme
+
 (define (memoize.v2 suspended-c)
   (define (hidden)
     (define the-value (suspended-c))
@@ -36,12 +52,18 @@
     the-value)
   (lambda () (hidden)))
 
-;==============================================
-; Built-ins de Lazy Evaluation :: Delay & Force
+#+END_SRC
+
+ Built-ins de Lazy Evaluation :: Delay & Force
+
+#+BEGIN_SRC scheme
 
 (define lazy+2 (delay (apply + (build-list 50000 values))))
-;no caso acima a chamada deverá ser (force lazy+2), uma vez que chamar apenas
-;uma vez que chamando apenas a variável o procedimento será retardado até ser necessário.
 
-; Delay -> cria uma "promise", que é uma lazy evaluation cujo resultado será memorizado.
+#+END_SRC
+
+No caso acima, a chamada deverá ser (force lazy+2), uma vez que chamar apenas a variável faz o procedimento ser 
+retardado.
+
+O delay, por sua vez, cria uma "promise", que é uma lazy evaluation cujo resultado será memorizado.
 
