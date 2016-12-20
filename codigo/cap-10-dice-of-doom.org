@@ -349,4 +349,6 @@ As imagens para essse jogo estão em: https://github.com/pdelfino/LP-Realm-Of-Ra
 (define (sum-territory board player)
   (for/fold ([result 0]) ([t board])
     (if (= (territory-player t) player) (+ result 1) result)))
+
+(roll-the-dice)
     #+END_SRC
