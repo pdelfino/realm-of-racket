@@ -31,12 +31,17 @@ No código abaixo, tentamos implementar o conceito de lazy evaluation para torna
 
     #+END_SRC
   
-Nessa parte não conseguimos fazer o Lazy funcionar
+Nessa parte não conseguimos fazer o Lazy funcionar. Tentamos seguir o "template" que aprendemos o cap 11, mas não deu certo. 
 
 #+BEGIN_SRC scheme
-; Lazy Evaluation - Cap 11
+
 (define-values (game game? game-board game-player game-moves)
   (lambda (x) (force (game-lazy-tree x))))
+
+#+END_SRC
+
+
+#+BEGIN_SRC scheme
 
 (struct dice-world (src board gt))
 
