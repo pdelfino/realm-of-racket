@@ -6,4 +6,6 @@ Project: Implementing the book "Realm of Racket" until chapter 12.
 
 Professor: Alexandre Rademaker
 
+Course: "Linguagens de Programação", FGV
+
 Date: 2016.2
