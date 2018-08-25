@@ -20,7 +20,7 @@ Implementing the book "Realm of Racket"
   - [X] 5
   - [X] 6
   - [X] 7
-  - [] 8
+  - [ ] 8
   - [X] 9
   - [ ] 10
   - [ ] 11
