@@ -1,7 +1,7 @@
 Implementing the book "Realm of Racket"
 ===
 
-+ Group: Daniel Alves Wise and Pedro Delfino;
++ Group: Pedro Delfino and Daniel Wise;
 
 + Professor: Alexandre Rademaker;
 
