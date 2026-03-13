@@ -1,6 +1,6 @@
 # Realm of Racket
 
-![The Tower of Babel](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Pieter_Bruegel_the_Elder_-_The_Tower_of_Babel_%28Vienna%29_-_Google_Art_Project_-_edited.jpg/700px-Pieter_Bruegel_the_Elder_-_The_Tower_of_Babel_%28Vienna%29_-_Google_Art_Project_-_edited.jpg)
+![The Tower of Babel](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Pieter_Bruegel_the_Elder_-_The_Tower_of_Babel_%28Vienna%29_-_Google_Art_Project_-_edited.jpg/960px-Pieter_Bruegel_the_Elder_-_The_Tower_of_Babel_%28Vienna%29_-_Google_Art_Project_-_edited.jpg)
 
 *"The Tower of Babel" (1563) by Pieter Bruegel the Elder — [Wikipedia](https://en.wikipedia.org/wiki/The_Tower_of_Babel_(Bruegel))*
 
